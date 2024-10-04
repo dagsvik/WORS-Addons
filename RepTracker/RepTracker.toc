@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Reputation Tracker
+## Notes: Tracks reputation gains and prints the xp gains like OSRS.
+## Author: Dagsvik
+## SavedVariables: RepTrackerSettings
+RepTracker.lua
