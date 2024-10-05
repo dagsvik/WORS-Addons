@@ -22,29 +22,29 @@ eventFrame:RegisterEvent("GUILDBANKFRAME_OPENED")
 eventFrame:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and arg1 == "Blizzard_GuildBankUI" then
         -- Blizzard_GuildBankUI is loaded, we can now access GuildBankFrame
-        print("Blizzard_GuildBankUI loaded")
+        --print("Blizzard_GuildBankUI loaded")
         if not BankStackSplitterButtonFrame then
             CreateGuildBankButtons()
-            print("Guild bank buttons created")
+            --print("Guild bank buttons created")
         end
         HookGuildBankItemButtons()
-        print("Guild bank item buttons hooked")
+        --print("Guild bank item buttons hooked")
     elseif event == "GUILDBANKFRAME_OPENED" then
-        print("Guild bank frame opened")
+        --print("Guild bank frame opened")
         -- Ensure buttons and hooks are set up
         if not BankStackSplitterButtonFrame then
             if IsAddOnLoaded("Blizzard_GuildBankUI") then
                 CreateGuildBankButtons()
-                print("Guild bank buttons created")
+                --print("Guild bank buttons created")
                 HookGuildBankItemButtons()
-                print("Guild bank item buttons hooked")
+                --print("Guild bank item buttons hooked")
             else
                 -- Load Blizzard_GuildBankUI if not already loaded
                 LoadAddOn("Blizzard_GuildBankUI")
                 CreateGuildBankButtons()
-                print("Guild bank buttons created after loading Blizzard_GuildBankUI")
+                --print("Guild bank buttons created after loading Blizzard_GuildBankUI")
                 HookGuildBankItemButtons()
-                print("Guild bank item buttons hooked after loading Blizzard_GuildBankUI")
+                --print("Guild bank item buttons hooked after loading Blizzard_GuildBankUI")
             end
         end
     end
@@ -94,7 +94,7 @@ StaticPopupDialogs["BANKSTACKSPLITTER_ENTER_AMOUNT"] = {
         if amount and amount > 0 then
             -- Store the custom amount
             BankStackSplitterSettingsCustomAmount = amount
-            print("Custom amount set to:", amount)
+            --print("Custom amount set to:", amount)
             -- Update the button text
             if BankStackSplitterButtonFrame and BankStackSplitterButtonFrame.buttons then
                 for _, button in pairs(BankStackSplitterButtonFrame.buttons) do
@@ -105,7 +105,7 @@ StaticPopupDialogs["BANKSTACKSPLITTER_ENTER_AMOUNT"] = {
                 end
             end
         else
-            print("Invalid amount entered.")
+            --print("Invalid amount entered.")
         end
     end,
     OnShow = function(self)
@@ -124,13 +124,13 @@ StaticPopupDialogs["BANKSTACKSPLITTER_ENTER_AMOUNT"] = {
 function CreateGuildBankButtons()
     -- Ensure the guild bank frame exists
     if not GuildBankFrame then
-        print("GuildBankFrame not found")
+        --print("GuildBankFrame not found")
         return
     end
 
     -- Check if buttons already exist
     if BankStackSplitterButtonFrame then
-        print("BankStackSplitterButtonFrame already exists")
+        --print("BankStackSplitterButtonFrame already exists")
         return
     end
 
@@ -176,7 +176,7 @@ function CreateGuildBankButtons()
                 -- Left-click handler
                 -- Save the selected value
                 BankStackSplitterSettings = self.value
-                print("Selected amount set to:", self.value)
+                --print("Selected amount set to:", self.value)
 
                 -- Update button highlights
                 for _, button in pairs(BankStackSplitterButtonFrame.buttons) do
@@ -192,17 +192,17 @@ function CreateGuildBankButtons()
         -- Add the button to the table
         table.insert(BankStackSplitterButtonFrame.buttons, btn)
     end
-    print("Guild bank buttons created successfully")
+    --print("Guild bank buttons created successfully")
 end
 
 -- Function to hook guild bank item buttons
 function HookGuildBankItemButtons()
     if hooksSetUp then
-        print("Hooks already set up")
+        --print("Hooks already set up")
         return
     end
     hooksSetUp = true
-    print("Setting up hooks for guild bank item buttons")
+    --print("Setting up hooks for guild bank item buttons")
 
     -- Hook guild bank item buttons
     for column = 1, 7 do
@@ -216,7 +216,7 @@ function HookGuildBankItemButtons()
                 -- Set a new OnClick handler
                 button:SetScript("OnClick", function(self, buttonPressed)
                     if buttonPressed == "RightButton" then
-                        print("Right-clicked on:", buttonName)
+                        --print("Right-clicked on:", buttonName)
                         HandleGuildBankItemClick(self, column, buttonIndex)
                         -- Do not call the original OnClick handler
                     else
@@ -227,106 +227,106 @@ function HookGuildBankItemButtons()
                     end
                 end)
             else
-                print("Button not found:", buttonName)
+                --print("Button not found:", buttonName)
             end
         end
     end
-    print("Hooks set up for guild bank item buttons")
+    --print("Hooks set up for guild bank item buttons")
 end
 
 -- Function to handle right-click on guild bank items
 function HandleGuildBankItemClick(button, column, buttonIndex)
-    print("HandleGuildBankItemClick called with column:", column, "buttonIndex:", buttonIndex)
+    --print("HandleGuildBankItemClick called with column:", column, "buttonIndex:", buttonIndex)
     local amount = BankStackSplitterSettings
-    print("Amount to withdraw:", amount)
+    --print("Amount to withdraw:", amount)
     local tab = GetCurrentGuildBankTab()
-    print("Current guild bank tab:", tab)
+    --print("Current guild bank tab:", tab)
     local slot = (column - 1) * 14 + buttonIndex  -- Calculate slot number from column and buttonIndex
-    print("Calculated slot number:", slot)
+    --print("Calculated slot number:", slot)
 
     local itemLink = GetGuildBankItemLink(tab, slot)
     if not itemLink then
-        print("No item found at slot:", slot)
+        --print("No item found at slot:", slot)
         return
     end
-    print("ItemLink found:", itemLink)
+    --print("ItemLink found:", itemLink)
 
     local texture, itemCount, locked = GetGuildBankItemInfo(tab, slot)
-    print("Item count:", itemCount, "Locked:", tostring(locked))
+    --print("Item count:", itemCount, "Locked:", tostring(locked))
     if not itemCount or itemCount <= 0 or locked then
-        print("Cannot withdraw item. Either count is zero or item is locked.")
+        --print("Cannot withdraw item. Either count is zero or item is locked.")
         return
     end
 
     -- Get item info and itemID
     local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemLink)
-    print("Item stack count in bags:", itemStackCount)
+    --print("Item stack count in bags:", itemStackCount)
     local itemID = tonumber(string.match(itemLink, "item:(%d+)"))
-    print("ItemID:", itemID)
+    --print("ItemID:", itemID)
 
     -- Handle amount
     if amount == "All" then
         if itemID and itemID <= 500000 then
-            print("ItemID <= 500000, withdrawing all items")
+            --print("ItemID <= 500000, withdrawing all items")
             -- Withdraw the full stack
             PickupGuildBankItem(tab, slot)
             -- Check if the item is on the cursor
             local curType, cursorItemID, cursorItemLink = GetCursorInfo()
             if curType == "item" then
-                print("Item picked up from guild bank:", cursorItemLink)
+                --print("Item picked up from guild bank:", cursorItemLink)
                 if not PlaceItemInBags() then
-                    print("Your bags are full!")
+                    --print("Your bags are full!")
                     ClearCursor()
                 else
-                    print("Item successfully stored in bags")
+                    --print("Item successfully stored in bags")
                 end
             else
-                print("Failed to pick up item from guild bank")
+                --print("Failed to pick up item from guild bank")
             end
             return  -- Exit the function after handling this case
         else
             -- ItemID > 500000, withdraw based on empty bag slots
-            print("ItemID > 500000, withdrawing based on empty bag slots")
+            --print("ItemID > 500000, withdrawing based on empty bag slots")
             -- Get the number of empty bag slots
             local emptySlots = GetEmptyBagSlotCount()
             if emptySlots <= 0 then
-                print("No empty bag slots available")
+                --print("No empty bag slots available")
                 return
             end
             amount = emptySlots
-            print("Empty bag slots:", amount)
+            --print("Empty bag slots:", amount)
             -- Continue to process with the calculated amount
         end
     elseif amount == "X" then
         amount = BankStackSplitterSettingsCustomAmount
-        print("Using custom amount:", amount)
+        --print("Using custom amount:", amount)
         amount = tonumber(amount)
         if not amount or amount <= 0 then
-            print("Invalid custom amount:", amount)
+            --print("Invalid custom amount:", amount)
             return
         end
     else
         amount = tonumber(amount)
         if not amount or amount <= 0 then
-            print("Invalid amount:", amount)
+            --print("Invalid amount:", amount)
             return
         end
     end
 
     if amount > itemCount then
         amount = itemCount
-        print("Adjusted amount to available item count:", amount)
+        --print("Adjusted amount to available item count:", amount)
     end
 
     if itemStackCount == 1 then
-        print("Item is non-stackable in bags.")
+        --print("Item is non-stackable in bags.")
         -- For non-stackable items, withdraw one at a time
         for i = 1, amount do
-            print("Withdrawing item number:", i)
+            --print("Withdrawing item number:", i)
             -- Check if there are still items left in the bank
             local _, currentItemCount, currentLocked = GetGuildBankItemInfo(tab, slot)
             if not currentItemCount or currentItemCount <= 0 or currentLocked then
-                print("No more items to withdraw or item is locked.")
+                --print("No more items to withdraw or item is locked.")
                 break
             end
 
@@ -334,36 +334,36 @@ function HandleGuildBankItemClick(button, column, buttonIndex)
             -- Check if the item is on the cursor
             local curType, cursorItemID, cursorItemLink = GetCursorInfo()
             if curType == "item" then
-                print("Item picked up from guild bank:", cursorItemLink)
+                --print("Item picked up from guild bank:", cursorItemLink)
                 if not PlaceItemInBags() then
-                    print("Your bags are full!")
+                    --print("Your bags are full!")
                     ClearCursor()
                     break
                 else
-                    print("Item successfully stored in bags")
+                    --print("Item successfully stored in bags")
                 end
             else
-                print("Failed to pick up item from guild bank")
+                --print("Failed to pick up item from guild bank")
                 break
             end
         end
     else
-        print("Item is stackable in bags.")
+        --print("Item is stackable in bags.")
         -- For stackable items, use SplitGuildBankItem
-        print("Attempting to withdraw amount:", amount)
+        --print("Attempting to withdraw amount:", amount)
         SplitGuildBankItem(tab, slot, amount)
         -- Check if the item is on the cursor
         local curType, cursorItemID, cursorItemLink = GetCursorInfo()
         if curType == "item" then
-            print("Item split and picked up from guild bank:", cursorItemLink)
+            --print("Item split and picked up from guild bank:", cursorItemLink)
             if not PlaceItemInBags() then
-                print("Your bags are full!")
+                --print("Your bags are full!")
                 ClearCursor()
             else
-                print("Item successfully stored in bags")
+                --print("Item successfully stored in bags")
             end
         else
-            print("Failed to split and pick up item from guild bank")
+            --print("Failed to split and pick up item from guild bank")
         end
     end
 end
