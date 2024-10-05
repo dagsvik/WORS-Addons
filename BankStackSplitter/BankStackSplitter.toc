@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Bank Stack Splitter
+## Notes: Modify bank interaction to withdraw specified amounts.
+## Author: Dagsvik
+## SavedVariables: BankStackSplitterSettings
+BankStackSplitter.lua
