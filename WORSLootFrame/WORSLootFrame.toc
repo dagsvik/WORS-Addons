@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: WORS Loot Frame
+## Notes: Loot frame that better represents OSRS looting.
+## Version: 1.0
+## Author: Dagsvik
+WORSLootFrame.lua
