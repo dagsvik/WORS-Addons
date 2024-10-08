@@ -71,8 +71,17 @@ function ShowCustomLootFrame()
     local frameHeight = 60 + (buttonHeight * (numLootItems + 1))  -- +1 for the cancel button
     CustomLootFrame:SetHeight(frameHeight)
 
-    -- Position the frame (optional, center it)
-    CustomLootFrame:SetPoint("CENTER", UIParent, "CENTER")
+   -- Get the current mouse position and adjust it based on the scale of the UI
+   local scale = UIParent:GetEffectiveScale()
+   local cursorX, cursorY = GetCursorPosition()
+   cursorX, cursorY = cursorX / scale, cursorY / scale
+
+   -- Adjust the position so that the first item's "Take" button is under the mouse
+   local offsetY = 50  -- Offset for positioning the first item below the cursor
+   local offsetX = -5
+   CustomLootFrame:ClearAllPoints()
+   CustomLootFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", cursorX - 20 + offsetX, cursorY + offsetY)
+
 
     -- Create or update loot buttons
     for i = 1, numLootItems do
@@ -189,7 +198,7 @@ function ShowCustomLootFrame()
     CustomLootFrame:Show()
 
     -- Print the total number of loot items
-    print("Total loot items:", numLootItems)
+    --print("Total loot items:", numLootItems)
 end
 
 
