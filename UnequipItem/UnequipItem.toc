@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Unequip Items
+## Notes: Adds right click option to Unequip items on your character.
+## Version: 1.0
+## Author: Dagsvik
+UnequipItem.lua
