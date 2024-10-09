@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: WORS Drop Table
+## Notes: Drop table for WORS
+## Version: 1.0
+## Author: Dagsvik
+npc_data.lua
+DropTable.lua
