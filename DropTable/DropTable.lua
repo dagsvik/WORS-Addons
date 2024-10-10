@@ -25,16 +25,30 @@ local function QueryAllItemIDs()
 
                 -- If the item is not cached, query the item
                 if not itemName then
-                    print("Querying itemID: " .. itemID)
+                    --print("Querying itemID: " .. itemID)
                     -- Query the item
                     queryItem(itemID)
-                else
-                    print("Item already cached: " .. itemName .. " (ID: " .. itemID .. ")")
+                --else
+                    --print("Item already cached: " .. itemName .. " (ID: " .. itemID .. ")")
                 end
             end
         end
     end
 end
+
+-- Function to get the color based on drop rate
+local function GetDropRateColor(dropRate)
+    if dropRate == 1 then
+        return 0, 0.5, 1  -- Blue (RGB)
+    elseif dropRate <= 25 then
+        return 0, 1, 0  -- Green (RGB)
+    elseif dropRate <= 100 then
+        return 1, 1, 0  -- Yellow (RGB)
+    else
+        return 1, 0.5, 0  -- Orange (RGB)
+    end
+end
+
 
 -- Create the main UI frame
 local function CreateNPCListFrame()
@@ -54,13 +68,20 @@ local function CreateNPCListFrame()
 
     -- Set the title of the frame
     frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    frame.title:SetPoint("TOP", frame, "TOP", 0, -10)
+    frame.title:SetPoint("TOPLEFT", frame, "TOPLEFT", 437, -20)
     frame.title:SetText("NPC List")
+
+
+
+    -- Set the title of the frame
+    frame.NpcNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    frame.NpcNameSelected:SetPoint("TOPLEFT", frame, "TOPLEFT", 125, -20)
+    frame.NpcNameSelected:SetText("Npc Name")
 
     -- Create the input box for filtering NPCs
     local inputBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-    inputBox:SetSize(250, 20)
-    inputBox:SetPoint("TOP", frame, "TOP", 140, -40)
+    inputBox:SetSize(150, 20)
+    inputBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -40)
     inputBox:SetAutoFocus(false)
     inputBox:SetScript("OnTextChanged", function(self)
         local text = self:GetText():lower()
@@ -69,12 +90,12 @@ local function CreateNPCListFrame()
 
     -- Scrollable area for NPCs
     local npcScrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 290, -70)
-    npcScrollFrame:SetSize(260, 300)
+    npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -70)
+    npcScrollFrame:SetSize(150, 300)
 
     -- Create a container for the scrollable content (NPC List)
     local npcContent = CreateFrame("Frame", nil, npcScrollFrame)
-    npcContent:SetSize(260, 300)
+    npcContent:SetSize(150, 300)
     npcScrollFrame:SetScrollChild(npcContent)
 
     -- Create the list for NPC entries
@@ -124,8 +145,7 @@ local function CreateNPCListFrame()
             local itemName, itemLink, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
             local itemButton = itemList[index]
 			
-			--queryItem(itemID)
-			
+            -- Create item button if it doesn't exist
             if not itemButton then
                 itemButton = CreateFrame("Button", nil, itemContent)
                 itemButton:SetSize(240, 70)  -- Increased height to allow space for quantity
@@ -161,15 +181,20 @@ local function CreateNPCListFrame()
                 itemButton.text:SetText(itemLink)  -- Shows item link
             end
 
-            -- Display the quantity (e.g., "Quantity: 1-2")
+            -- Display the quantity and ensure the text color is always white
             if itemQuantity then
                 itemButton.quantityText:SetText("Quantity: " .. itemQuantity)
+                itemButton.quantityText:SetTextColor(1, 1, 1)  -- Set to white (RGB)
             end
 
-            -- Display the drop rate (e.g., "1 in 5" or "20%")
+            -- Display the drop rate and color it based on conditions
             if itemDropRate then
                 local dropPercentage = (1 / itemDropRate) * 100
                 itemButton.dropRateText:SetText(string.format("Drop Rate: %.2f%% (1 in %d)", dropPercentage, itemDropRate))
+
+                -- Set the text color based on the drop rate
+                local r, g, b = GetDropRateColor(itemDropRate)
+                itemButton.dropRateText:SetTextColor(r, g, b)  -- Apply the conditional color
             end
 
             -- Show the button
@@ -222,6 +247,7 @@ local function CreateNPCListFrame()
                 -- Set click handler for NPC button (updates the item list)
                 npcButton:SetScript("OnClick", function()
                     PopulateItemList(npcButton.npcID)  -- Use the stored npcID to populate the item list
+                    frame.NpcNameSelected:SetText(npcName)
 
                 end)
 
@@ -244,16 +270,6 @@ local function CreateNPCListFrame()
     PopulateNPCList(nil)
 
     return frame
-end
-
--- Function to simulate retrieving NPC names (replace with actual in-game method)
-function GetNPCName(npcID)
-    local npcNames = {
-        [442293] = "Imp",
-        [441831] = "Man",
-        [441832] = "Woman"
-    }
-    return npcNames[npcID] or "Unknown NPC"
 end
 
 
@@ -317,4 +333,36 @@ f:SetScript("OnEvent", function()
     local npcFrame = CreateNPCListFrame()
     npcFrame:Show()  -- Show the NPC frame when the player logs in
     local minimapButton = CreateMinimapButton()
+end)
+
+
+-- Create a frame to listen for key events
+local keyEventFrame = CreateFrame("Frame")
+
+-- Enable key events for this frame
+keyEventFrame:EnableKeyboard(true)
+
+-- Function to hide NPCListFrame if it's shown when Esc is pressed
+local function HideNPCListFrameOnEsc(key)
+    -- Check if the pressed key is Escape
+    if key == "ESCAPE" then
+        -- If NPCListFrame is shown, hide it
+        if NPCListFrame and NPCListFrame:IsShown() then
+            NPCListFrame:Hide()
+            print("NPCListFrame hidden due to Esc key press.")
+        end
+    end
+end
+
+-- Set the script to run when a key is pressed
+keyEventFrame:SetScript("OnKeyDown", function(self, key)
+    HideNPCListFrameOnEsc(key)
+end)
+
+-- Register for the PLAYER_LOGIN event to initialize this hook after login
+keyEventFrame:RegisterEvent("PLAYER_LOGIN")
+keyEventFrame:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_LOGIN" then
+        print("Esc key hook registered.")
+    end
 end)

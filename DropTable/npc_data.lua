@@ -12,6 +12,22 @@ NPCData = {
             { itemID = 90039, dropRate = 1, quantity = "1" },  -- Bones
         }
     },
+    -- BAT NPC (ID: 443296)
+    [443296] = {
+        name = "Bat",
+        drops = {
+			-- always
+            { itemID = 90726, dropRate = 1, quantity = "1" },  -- Bat Bones
+        }
+    },
+    -- GUARD DOG NPC (ID: 441041)
+    [441041] = {
+        name = "Guard Dog",
+        drops = {
+			-- always
+            { itemID = 90039, dropRate = 1, quantity = "1" },  -- Bones
+        }
+    },
     -- GIANT RAT NPC (ID: 441804)
     [441804] = {
         name = "Giant Rat",
@@ -55,6 +71,35 @@ NPCData = {
             { itemID = 90097, dropRate = 1, quantity = "1" },  -- Raw Chicken
             { itemID = 90069, dropRate = 2, quantity = "5" },  -- Feather
             { itemID = 90069, dropRate = 4, quantity = "15" },  -- Feather
+        }
+    },
+    -- Barbarian NPC (ID: 441861)
+    [441861] = {
+        name = "Barbarian",
+        drops = {
+			-- always
+            { itemID = 90039, dropRate = 1, quantity = "1" },  -- Bones
+			-- Weapons and armour
+			-- { itemID = 0, dropRate = 32, quantity = "1" },  -- Bronze Spear
+			-- { itemID = 90009, dropRate = 22, quantity = "1" },  -- Bronze Axe -- Have to check what axe is prio
+			{ itemID = 90011, dropRate = 22, quantity = "1" },  -- Iron Axe
+			-- { itemID = 90824, dropRate = 32, quantity = "1"  },  -- Staff -- not 100% sure
+			{ itemID = 90181, dropRate = 128, quantity = "1" },  -- Iron Mace
+			-- Runes and ammunition
+            { itemID = 90257, dropRate = 43, quantity = "10"  },  -- Iron Arrows
+			{ itemID = 90052, dropRate = 43, quantity = "2" },  -- chaos runes
+            -- { itemID = 90633, dropRate = 43, quantity = "15"  },  -- Bronze Arrows -- Have to check what axe is prio
+			{ itemID = 90067, dropRate = 43, quantity = "2" },  -- Earth Runes
+            { itemID = 90070, dropRate = 64, quantity = "5"  }, -- Fire Runes
+            { itemID = 90090, dropRate = 64, quantity = "5"  },	-- Mind Runes
+            { itemID = 90139, dropRate = 128, quantity = "2"  },  -- Law Runes
+			-- Other
+			-- { itemID = 0, dropRate = 128, quantity = "1" },  -- Tin Ore
+			-- { itemID = 0, dropRate = 128, quantity = "1" },  -- Bear Fur
+			{ itemID = 90035, dropRate = 64, quantity = "1" },  -- Beer
+			{ itemID = 90142, dropRate = 128, quantity = "1" },  -- Cooked Meat
+			-- { itemID = 0, dropRate = 128, quantity = "1" },  -- Flyer
+			-- { itemID = 0, dropRate = 128, quantity = "1" },  -- Ring Mould
         }
     },
     -- GOBLIN NPC (ID: 441845)
@@ -261,7 +306,13 @@ NPCData = {
     [441174] = {
         name = "Dark Wizard",
         drops = {
+			-- Always
             { itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones (1 in 1 = 100%)
+			-- Equipments
+			{ itemID = 90987, dropRate = 32, quantity = "1"  },  -- Wizard Hat
+			{ itemID = 90826, dropRate = 32, quantity = "1"  },  -- Black Robe
+			{ itemID = 90824, dropRate = 32, quantity = "1"  },  -- Staff
+			-- Elemental runes
             { itemID = 90067, dropRate = 32, quantity = "36"  },  -- Earth Runes
             { itemID = 90067, dropRate = 43, quantity = "10"  },  -- Earth Runes
             { itemID = 90067, dropRate = 64, quantity = "18"  },  -- Earth Runes
@@ -271,6 +322,19 @@ NPCData = {
             { itemID = 90107, dropRate = 64, quantity = "18"  },  -- Water Runes
             { itemID = 90070, dropRate = 43, quantity = "10"  },  -- Fire Runes
             { itemID = 90070, dropRate = 64, quantity = "18"  },  -- Fire Runes
+			-- Catalytic runes
+            { itemID = 90091, dropRate = 18, quantity = "4"  },  -- Nature Runes
+            { itemID = 90052, dropRate = 21, quantity = "5"  },  -- Chaos Runes
+            { itemID = 90090, dropRate = 43, quantity = "10"  },  -- Mind Runes
+            { itemID = 90090, dropRate = 64, quantity = "18"  },  -- Mind Runes
+            { itemID = 90038, dropRate = 43, quantity = "10"  },  -- Body Runes
+            { itemID = 90038, dropRate = 64, quantity = "18"  },  -- Body Runes
+            { itemID = 90125, dropRate = 64, quantity = "2"  },  -- Blood Runes
+            { itemID = 90130, dropRate = 128, quantity = "2"  },  -- Cosmic Runes
+            { itemID = 90139, dropRate = 128, quantity = "3"  },  -- Law Runes
+            -- Other
+            { itemID = 90260, dropRate = 128, quantity = "1"  },  -- Water talisman
+            { itemID = 90822, dropRate = 128, quantity = "1"  },  -- Fire talisman
         }
     }
 }
