@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: WORS Vendor Close Fix
+## Notes: Fixes the interaction where closing a shop also automatically closes your bag.
+## Version: 1.0
+## Author: Dagsvik
+VendorCloseFix.lua

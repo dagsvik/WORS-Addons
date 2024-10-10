@@ -8,6 +8,7 @@
 ## Can be added to WORS
 - **BankOpenFix**
 - **UnequipItem**
+- **VendorCloseFix**
 
 ## Work in Progress
 - **QuantityInfo**
