@@ -336,33 +336,3 @@ f:SetScript("OnEvent", function()
 end)
 
 
--- Create a frame to listen for key events
-local keyEventFrame = CreateFrame("Frame")
-
--- Enable key events for this frame
-keyEventFrame:EnableKeyboard(true)
-
--- Function to hide NPCListFrame if it's shown when Esc is pressed
-local function HideNPCListFrameOnEsc(key)
-    -- Check if the pressed key is Escape
-    if key == "ESCAPE" then
-        -- If NPCListFrame is shown, hide it
-        if NPCListFrame and NPCListFrame:IsShown() then
-            NPCListFrame:Hide()
-            print("NPCListFrame hidden due to Esc key press.")
-        end
-    end
-end
-
--- Set the script to run when a key is pressed
-keyEventFrame:SetScript("OnKeyDown", function(self, key)
-    HideNPCListFrameOnEsc(key)
-end)
-
--- Register for the PLAYER_LOGIN event to initialize this hook after login
-keyEventFrame:RegisterEvent("PLAYER_LOGIN")
-keyEventFrame:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_LOGIN" then
-        print("Esc key hook registered.")
-    end
-end)
