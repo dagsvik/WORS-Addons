@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Quantity Information
+## Notes: Tells you precice quantity of coins in inventory when hover and items in bank when hover.
+## Version: 1.0
+## Author: Dagsvik
+QuantityInfo.lua
