@@ -6,8 +6,35 @@
 local npcID = 442293
 local npcDrops = NPCData[npcID]
 
+-- Used for saving items to Querie
+local ItemQueue={};
 
+--query and display an item that matches <id>
+local function queryItem(id)
+	SetItemRef(format('item:%d', (id)))
+    ItemRefTooltip:Hide()
+end
 
+-- Function to query all itemIDs in the NPCData table
+local function QueryAllItemIDs()
+    for npcID, npcData in pairs(NPCData) do
+        if npcData.drops then
+            for index, drop in ipairs(npcData.drops) do
+                local itemID = drop.itemID
+                local itemName, itemLink, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+
+                -- If the item is not cached, query the item
+                if not itemName then
+                    print("Querying itemID: " .. itemID)
+                    -- Query the item
+                    queryItem(itemID)
+                else
+                    print("Item already cached: " .. itemName .. " (ID: " .. itemID .. ")")
+                end
+            end
+        end
+    end
+end
 
 -- Create the main UI frame
 local function CreateNPCListFrame()
@@ -18,12 +45,12 @@ local function CreateNPCListFrame()
 
     -- Set background and borders manually
     frame:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",  -- Background texture
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",    -- Border texture
-        tile = true, tileSize = 32, edgeSize = 32,
-        insets = { left = 8, right = 8, top = 8, bottom = 8 }
+        bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
+        edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
+        tile = false, tileSize = 32, edgeSize = 32,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
     })
-    frame:SetBackdropColor(0, 0, 0, 1)  -- Black background
+    --frame:SetBackdropColor(0, 0, 0, 1)  -- Black background
 
     -- Set the title of the frame
     frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -80,14 +107,25 @@ local function CreateNPCListFrame()
         local npcDrops = NPCData[npcID]
         if not npcDrops or not npcDrops.drops then return end
 
+        -- Verify All items are cached.
+        for index, drop in ipairs(npcDrops.drops) do
+            local itemID = drop.itemID
+            local itemName, itemLink, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+            if not itemName then
+                queryItem(itemID)
+            end
+        end
+
         -- Populate the item list
         for index, drop in ipairs(npcDrops.drops) do
             local itemID = drop.itemID
             local itemDropRate = drop.dropRate
             local itemQuantity = drop.quantity or "1"  -- Default to "1" if quantity is not specified
             local itemName, itemLink, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
-
             local itemButton = itemList[index]
+			
+			--queryItem(itemID)
+			
             if not itemButton then
                 itemButton = CreateFrame("Button", nil, itemContent)
                 itemButton:SetSize(240, 70)  -- Increased height to allow space for quantity
@@ -184,6 +222,7 @@ local function CreateNPCListFrame()
                 -- Set click handler for NPC button (updates the item list)
                 npcButton:SetScript("OnClick", function()
                     PopulateItemList(npcButton.npcID)  -- Use the stored npcID to populate the item list
+
                 end)
 
                 npcButton:Show()
@@ -273,6 +312,8 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
 f:SetScript("OnEvent", function()
+    -- Call the function to query all itemIDs
+    QueryAllItemIDs()
     local npcFrame = CreateNPCListFrame()
     npcFrame:Show()  -- Show the NPC frame when the player logs in
     local minimapButton = CreateMinimapButton()
