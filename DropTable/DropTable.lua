@@ -272,10 +272,7 @@ local function CreateNPCListFrame()
     return frame
 end
 
-
-
-
--- Function to create the minimap button
+--[[ --Old Button
 local function CreateMinimapButton()
     local minimapButton = CreateFrame("Button", "NPCListMinimapButton", MinimapCluster)  -- Attach to UIParent (center of screen)
     minimapButton:SetSize(32, 32)  -- Size of the minimap button
@@ -307,7 +304,7 @@ local function CreateMinimapButton()
         else
             NPCListFrame:Show()
         end
-    end)
+   end)
 
     -- Make the button draggable for testing purposes
     minimapButton:SetMovable(true)
@@ -320,9 +317,7 @@ local function CreateMinimapButton()
     NPCListFrame:Hide()
 
     return minimapButton
-end
-
-
+end --]]
 
 -- Create the NPC list frame on player login
 local f = CreateFrame("Frame")
@@ -332,7 +327,46 @@ f:SetScript("OnEvent", function()
     QueryAllItemIDs()
     local npcFrame = CreateNPCListFrame()
     npcFrame:Show()  -- Show the NPC frame when the player logs in
-    local minimapButton = CreateMinimapButton()
+	NPCListFrame:Hide() -- Hides on login
+    --local minimapButton = CreateMinimapButton()
 end)
 
 
+-- Function to create the minimap button Using LibDBIcon and Ace3
+local NPCDropTableAddon = LibStub("AceAddon-3.0"):NewAddon("NPCDropTable")
+DropTableMinimapButton = LibStub("LibDBIcon-1.0", true)
+
+local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("NPCDropTable", {
+	type = "data source",
+	text = "NPCDropTable",
+	icon = "INTERFACE\\ICONS\\INV_Crate_04",
+	OnClick = function(self, btn)
+        if btn == "LeftButton" then
+			if NPCListFrame:IsShown() then
+				NPCListFrame:Hide()
+			else
+				NPCListFrame:Show()
+			end
+        end
+	end,
+	OnTooltipShow = function(tooltip)
+		if not tooltip or not tooltip.AddLine then
+			return
+		end
+		tooltip:AddLine("NPCDropTable \n\nLeft-click: Toggle NPCDropTable", nil, nil, nil, nil)
+	end,
+})
+
+function NPCDropTableAddon:OnInitialize()
+	self.db = LibStub("AceDB-3.0"):New("NPCDropTableMinimapPOS", {
+		profile = {
+			minimap = {
+				hide = false,
+			},
+		},
+        
+	})
+	DropTableMinimapButton:Register("NPCDropTable", miniButton, self.db.profile.minimap)
+end
+
+DropTableMinimapButton:Show("NPCDropTable")
