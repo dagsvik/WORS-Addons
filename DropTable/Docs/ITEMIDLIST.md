@@ -1,0 +1,196 @@
+### ITEM ID LIST
+- Blue Dragon Hide 90416
+- Red Dragon Hide 90481
+- Black Dragon Hide 90410
+- Dragon Bone 90066
+- Bones 90039
+- Wolf Bones 90724
+- Bat Bones 90726
+- Fiendish Ashes 90830
+- Bear Fur 90832
+- Cowhide 90065
+- Unicorn Horn 90624
+- Logs 90000
+- Feather 90069
+- Raw Chicken 90097
+- Raw Bear Meat 90821
+- Raw Beef 90096
+- Raw Rat Meat 90206
+- Cooked Meat 90142
+- (Cooked) Bass 90124
+- Bread 90126
+- Egg 90068
+- Ashes 90831
+- Big Bone 90036
+- Noted Pure essence 590258
+- Air Rune 90120
+- Water Rune 90107
+- Fire Rune 90070
+- Earth Rune 90067
+- Chaos Rune 90052
+- Body Rune 90038
+- Mind Rune 90090
+- Nature Rune 90091
+- Cosmic Rune 90130
+- Blood Rune 90125
+- Death Rune 90133
+- Law Rune 90139
+- Leather Gloves 90463
+- Purple Gloves 51286
+- Yellow Gloves 
+- Red Gloves 51271
+- Teal Gloves 51281
+- Gold Ring 90445
+- Sapphire Ring 90495 
+- Emerald Ring 90437
+- Bronze Arrow 90633
+- Bronze Med Helm 90043
+- Bronze Pickaxe 90044
+- Bronze Battleaxe 90171
+- Bronze Axe 90009
+- Bronze Dagger 90162
+- Bronze Sword 90165
+- Bronze Longsword 90236
+- Bronze scimitar 90033
+- Bronze 2h Longsword 90175
+- Bronze Square Shield 90046
+- Iron Pickaxe 90187
+- Iron Arrow 90257
+- Iron Axe 90011
+- Iron Full Helm 90189
+- Iron KiteShield 90194
+- Iron Battleaxe 90085
+- Iron Mace 90181
+- Iron Dagger 90086
+- Iron Sword 90184
+- Iron Longsword 90118
+- Iron Platebody 90198
+- Iron Platelegs 90197
+- Iron Plateskirt 90196
+- Iron 2h Longsword 90200
+- Iron Square Shield 90191
+- Steel Pickaxe 90273
+- Steel Axe 90012
+- Steel Arrow 90296
+- Steel Med Helm 90269
+- Steel KiteShield 90280
+- Steel Square Shield 90277
+- Steel Battleaxe 9026
+- Steel Dagger 90267
+- Steel Sword 90271
+- Steel Longsword 90274
+- Steel 2h Longsword 90286
+- Mithril Arrow 90328
+- Mithril KiteShield 90312
+- Mithril Square Shield 90309
+- Mithril Axe 90014
+- Mithril Dagger 90299
+- Mithril Sword 90303
+- Mithril Longsword 90306
+- Mithril Mace 90300
+- Adamant Arrow 90359
+- Adamant Platebody 90338
+- Adamant Kiteshield 90343
+- Adamant Full helm 90338
+- Adamant Dagger 90330
+- Adamant Sword 90334
+- Adamant Longsword 90337
+- Rune Arrow 90390
+- Rune Dagger
+- Rune Sword 90365
+- Rune Longsword 90368
+- Rune Mace 90362
+- Rune Plateskirt 90376
+- Rune Chainbody 90373
+- Rune Platelegs 90377
+- Rune Med Helm 903369
+- Leather Body 90460
+- Staff 90824
+- Magic Staff 90871
+- BattleStaff 90420
+- Staff of Water 90837
+- Staff of Fire 90837
+- Staff of Air 90838
+- Staff of Earth 90839
+- Fine Cloth 90438
+- Mystic Boots (Dark) 51987
+- Mystic Hat (Dark) 51983
+- Mystic Gloves (Dark) 51986
+- Blue Wizard Robe 90827
+- Blue Wizard Hat 90828
+- Wizard Hat 90987
+- Black Robe 90826
+- Fire Talisman 90822
+- Water Talisman 90260
+- Air Talisman 90105
+- Earth Talisman 90208
+- Body Talisman 90822
+- Mind Talisman 90246
+- Black Cape 91072
+- Blue cape
+- Coal 90023
+- Copper Ore 90024
+- Tin Ore 90030
+- Iron Ore 90026
+- Mithril Ore 90027
+- Adamantite Ore 90021
+- Runeite Ore
+- Bronze Bar 90153
+- Iron Bar 90155
+- Steel Bar 90154
+- Mithril Bar 90156
+- Adamant Bar
+- Black Beads 90037
+- Red Beads 90098
+- White Beads 90108
+- Yellow Beads 90032
+- Chefs Hat 90753
+- Beer 90035
+- Goblin Mail 90073
+- Brass Necklace 90752
+- Hammer 90161
+- Tinderbox 90020
+- Shears 90100
+- Buckets 90047
+- Bucket of Water 90049
+- Jug 9087
+- Jug of Water 90088
+- Pot 90093
+- Pot of Flour 90095
+- Ball of Woof 90205
+- Clay 90391
+- Uncut Jade 90522
+- Uncut Opal 90524
+- Rake
+- Seed Dibber
+- Watering Can
+- Knife 90019
+- Gardening Boots
+- Secateurs 90818
+- Fishing Bait 90034
+- Grain 90074
+- Rope 90099
+- Eye of Newts 90610
+- Cabbage 90050
+- Limpwurt Root 90616
+- Banana 90749
+- Right Eye patch 90829
+- Potato Seeds 90754
+- Onion Seeds 90755
+- Cabbage Seeds 90756
+- Tomato Seeds 90757
+- Sweetcorn Seeds 90758
+- Watermelon Seed 90760
+- Snape Grass Seed
+- Strawberry Seed
+- Grimy guam leaf 90078
+- Grimy marrentill 90083
+- Grimy Tarromin 90207
+- Grimy harralander 90079
+- Grimy ranarr weed 90084
+- Grimy irit leaf 90080
+- Grimy avantoe 90075
+- Grimy kwuarm 90081
+- Grimy cadantine 90076
+- Grimy lantadyme 90082
+- Grimy dwarf weed 90077
