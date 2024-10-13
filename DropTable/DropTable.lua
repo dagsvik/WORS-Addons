@@ -9,6 +9,9 @@ local npcDrops = NPCData[npcID]
 -- Used for saving items to Querie
 local ItemQueue={};
 
+--SettingsVariables?
+BGAlpha = 1
+
 --query and display an item that matches <id>
 local function queryItem(id)
 	SetItemRef(format('item:%d', (id)))
@@ -52,26 +55,77 @@ end
 
 -- Create the main UI frame
 local function CreateNPCListFrame()
-    -- Create the main frame
-    local frame = CreateFrame("Frame", "NPCListFrame", UIParent)
-    frame:SetSize(600, 400)  -- Increase width to make space for the item list on the left
-    frame:SetPoint("CENTER", UIParent, "CENTER")
+	local SuperParent = CreateFrame("Frame", "ParentNPCListFrame", UIParent)
+	----SetSize
+	SuperParent:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+    SuperParent:SetPoint("CENTER", UIParent, "CENTER")
+
+	-- (2)
+	SuperParent:SetBackdrop({
+		bgFile = nil,
+		edgeFile = nil,
+		edgeSize = 1,
+	})
+
+	---FrameColor
+	SuperParent:SetBackdropColor(0,0,0,0)
+	
+	----Movable
+	SuperParent:EnableMouse(true)
+	SuperParent:SetMovable(true)
+	SuperParent:RegisterForDrag("LeftButton")
+	SuperParent:SetScript("OnDragStart", SuperParent.StartMoving)
+	SuperParent:SetScript("OnDragStop", SuperParent.StopMovingOrSizing)
+	SuperParent:SetScript("OnHide", SuperParent.StopMovingOrSizing)
+	
+    -- Create the BG frame
+    local bgframe = CreateFrame("Frame", "BGNPCListFrame", UIParent)
+	-- ParentNPCListFrame
+	bgframe:SetParent(ParentNPCListFrame)
+	
+	----SetSize
+	bgframe:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+    bgframe:SetPoint("CENTER")
 
     -- Set background and borders manually
-    frame:SetBackdrop({
+    bgframe:SetBackdrop({
         bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
         edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
         tile = false, tileSize = 32, edgeSize = 32,
         insets = { left = 4, right = 4, top = 4, bottom = 4 }
     })
-    --frame:SetBackdropColor(0, 0, 0, 1)  -- Black background
 
+    -- Create the main frame
+    local frame = CreateFrame("Frame", "NPCListFrame", UIParent)
+	----Movable
+	--bgframe:EnableMouse(true)
+	frame:SetMovable(true)
+	--bgframe:RegisterForDrag("LeftButton")
+	--bgframe:SetScript("OnDragStart", bgframe.StartMoving)
+	--bgframe:SetScript("OnDragStop", bgframe.StopMovingOrSizing)
+	--bgframe:SetScript("OnHide", bgframe.StopMovingOrSizing)
+	
+	--SetParent
+	frame:SetParent(ParentNPCListFrame)
+	frame:SetIgnoreParentAlpha(true)
+	
+	--SetSize
+    frame:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+    frame:SetPoint("CENTER")
+
+    -- Set background and borders manually
+    --
+	--frame:SetBackdrop({
+    --    bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
+    --    edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
+    --    tile = false, tileSize = 32, edgeSize = 32,
+    --    insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    --})
+	
     -- Set the title of the frame
     frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    frame.title:SetPoint("TOPLEFT", frame, "TOPLEFT", 437, -20)
+    frame.title:SetPoint("TOPLEFT", 437, -20)
     frame.title:SetText("NPC List")
-
-
 
     -- Set the title of the frame
     frame.NpcNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -80,6 +134,7 @@ local function CreateNPCListFrame()
 
     -- Create the input box for filtering NPCs
     local inputBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+	
     inputBox:SetSize(150, 20)
     inputBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -40)
     inputBox:SetAutoFocus(false)
@@ -90,7 +145,8 @@ local function CreateNPCListFrame()
 
     -- Scrollable area for NPCs
     local npcScrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -70)
+
+	npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -70)
     npcScrollFrame:SetSize(150, 300)
 
     -- Create a container for the scrollable content (NPC List)
@@ -205,9 +261,7 @@ local function CreateNPCListFrame()
         local totalHeight = #npcDrops.drops * 75
         itemContent:SetHeight(math.max(totalHeight, 300))
     end
-
-
-
+	
     -- Function to populate the NPC list dynamically from NPCData
     local function PopulateNPCList(filteredText)
         for _, button in ipairs(npcList) do
@@ -328,6 +382,8 @@ f:SetScript("OnEvent", function()
     local npcFrame = CreateNPCListFrame()
     npcFrame:Show()  -- Show the NPC frame when the player logs in
 	NPCListFrame:Hide() -- Hides on login
+	BGNPCListFrame:Hide() -- Hides on login
+	ParentNPCListFrame:Hide()
     --local minimapButton = CreateMinimapButton()
 end)
 
@@ -341,19 +397,41 @@ local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("NPCDropTable", {
 	text = "NPCDropTable",
 	icon = "INTERFACE\\ICONS\\INV_Crate_04",
 	OnClick = function(self, btn)
-        if btn == "LeftButton" then
-			if NPCListFrame:IsShown() then
-				NPCListFrame:Hide()
-			else
-				NPCListFrame:Show()
+		if not IsShiftKeyDown() then
+			if btn == "LeftButton" then
+				if NPCListFrame:IsShown() then
+					NPCListFrame:Hide()
+					BGNPCListFrame:Hide()
+					ParentNPCListFrame:Hide()
+				else
+					NPCListFrame:Show()
+					BGNPCListFrame:Show()
+					ParentNPCListFrame:Show()
+				end
 			end
-        end
+		end
+		if IsShiftKeyDown() then
+			if btn == "LeftButton" then
+				if (BGAlpha > 0.21) then
+					BGAlpha = BGAlpha - 0.1
+					BGNPCListFrame:SetAlpha(BGAlpha)
+					--print(BGAlpha) -- Debugging
+				end
+			end
+			if btn == "RightButton" then
+				if (BGAlpha < 1) then
+					BGAlpha = BGAlpha + 0.1
+					BGNPCListFrame:SetAlpha(BGAlpha)
+					--print(BGAlpha) -- Debugging
+				end
+			end
+		end
 	end,
 	OnTooltipShow = function(tooltip)
 		if not tooltip or not tooltip.AddLine then
 			return
 		end
-		tooltip:AddLine("NPCDropTable \n\nLeft-click: Toggle NPCDropTable", nil, nil, nil, nil)
+		tooltip:AddLine("NPCDropTable \n\nLeft-click: Toggle NPCDropTable\nShift+Left-click - Opacity\nShift+Right-click + Opacity", nil, nil, nil, nil)
 	end,
 })
 
@@ -364,7 +442,6 @@ function NPCDropTableAddon:OnInitialize()
 				hide = false,
 			},
 		},
-        
 	})
 	DropTableMinimapButton:Register("NPCDropTable", miniButton, self.db.profile.minimap)
 end
