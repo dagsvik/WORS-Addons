@@ -1,5 +1,14 @@
 #Changelog for NPC_DATA.LUA
 
+### 2024-10-13
+- Added Missed loot //Thanks to Untitiled
+- Added Kalphite Soldier
+- Added Kalphite Worker
+- Added Kalphite Guardian
+- Added Al-Kharid Warriors
+- Added Lizard
+- Added Small Lizard
+
 ### 2024-10-12
 - Fixed Wrong ItemID
 - Added Missing loot

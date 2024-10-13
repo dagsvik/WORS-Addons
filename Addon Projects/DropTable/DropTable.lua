@@ -129,8 +129,19 @@ local function CreateNPCListFrame()
 
     -- Set the title of the frame
     frame.NpcNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    frame.NpcNameSelected:SetPoint("TOPLEFT", frame, "TOPLEFT", 125, -20)
+    frame.NpcNameSelected:SetPoint("TOPLEFT", 20, -42)
+	frame.NpcNameSelected:SetTextColor(201,132,55,1)
     frame.NpcNameSelected:SetText("Npc Name")
+	frame.NpcNameSelected:SetJustifyH("LEFT")
+	frame.NpcNameSelected:SetJustifyV("CENTER")
+	frame.NpcNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
+	
+	--Line seperator
+	local LineSeperator = frame:CreateTexture()
+	LineSeperator:SetTexture(nil)
+	LineSeperator:SetColorTexture(.6 ,.6, .6, .2)
+	LineSeperator:SetSize(220, 2)
+	LineSeperator:SetPoint("TOPLEFT", BGNPCListFrame, 20, -60)
 
     -- Create the input box for filtering NPCs
     local inputBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
@@ -206,7 +217,7 @@ local function CreateNPCListFrame()
                 itemButton = CreateFrame("Button", nil, itemContent)
                 itemButton:SetSize(240, 70)  -- Increased height to allow space for quantity
                 itemButton:SetPoint("TOPLEFT", itemContent, "TOPLEFT", 0, -((index - 1) * 75))
-
+				
                 -- Create item icon
                 itemButton.icon = itemButton:CreateTexture(nil, "BACKGROUND")
                 itemButton.icon:SetSize(32, 32)
