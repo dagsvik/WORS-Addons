@@ -8,6 +8,7 @@
 - Added Al-Kharid Warriors
 - Added Lizard
 - Added Small Lizard
+- Fixed Red Dragon not showing up
 
 ### 2024-10-12
 - Fixed Wrong ItemID

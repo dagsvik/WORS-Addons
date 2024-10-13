@@ -624,8 +624,8 @@ NPCData = {
 			{ itemID = 50739, dropRate = 128, quantity = "1"  }, -- Spinach Roll
         }
     },
-    -- Red Dragon NPC (ID: 441075)
-    [441075] = {
+    -- Red Dragon NPC (ID: 441068)
+    [441068] = {
         name = "Red Dragon",
         drops = {
 			-- Always
