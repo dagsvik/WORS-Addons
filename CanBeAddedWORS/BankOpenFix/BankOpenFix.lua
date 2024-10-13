@@ -398,10 +398,38 @@ local function HideGuildBankColumnElements()
         ReskinCloseButton()
         MakeGuildBankFrameMovable()
         RemoveGuildBankTabTextures()
+        
     end
     
 end
+local firstErrorChatMessage = true
 
+-- Function to handle system error messages
+local function OnGuildBankMessageError()
+    --print("OnGuildBankMessageError function")
+
+    if firstErrorChatMessage then
+        --print("First Error Chat Message")
+        QueryGuildBankTab(GetCurrentGuildBankTab())  -- Refresh the Guild Bank Tab
+        firstErrorChatMessage = false  -- Prevent repeated refreshes
+    end
+end
+
+-- Function to register CHAT_MSG_SYSTEM when the Guild Bank is opened
+local function RegisterChatMsgSystemEvent()
+    local eventFrame = CreateFrame("Frame")  -- Create a new event frame for CHAT_MSG_SYSTEM
+    
+    eventFrame:RegisterEvent("CHAT_MSG_SYSTEM")  -- Register the event
+
+    -- Set up the OnEvent handler for the system message
+    eventFrame:SetScript("OnEvent", function(self, event, ...)
+        if event == "CHAT_MSG_SYSTEM" then
+            OnGuildBankMessageError()  -- Call your function when the event fires
+        end
+    end)
+    
+    --print("CHAT_MSG_SYSTEM event registered")
+end
 
 
 local isFirstRun = true
@@ -416,6 +444,7 @@ local function OnGuildBankOpened()
         Backpack:Show() --Optional Just normally nice to show the backpack when using the bank.
         HideGuildBankColumnElements()
         isFirstRun = false
+        RegisterChatMsgSystemEvent()
     end
 end
 
