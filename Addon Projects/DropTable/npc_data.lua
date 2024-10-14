@@ -2,6 +2,507 @@
 
 -- This table stores NPCs and their drop tables with item IDs and drop rates
 NPCData = {
+    -- Kurask NPC (ID: 441109) --NPC 86
+    [441109] = {
+        name = "Kurask",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Weapons And Armour
+			{ itemID = 90312, dropRate = 41, quantity = "1"  },  -- Mithril Kiteshield
+			{ itemID = 90368, dropRate = 41, quantity = "1"  },  -- Rune Longsword
+			{ itemID = 90347, dropRate = 41, quantity = "1"  },  -- Adamant Platebody
+			{ itemID = 90016, dropRate = 41, quantity = "1"  },  -- Rune Axe
+			-- { itemID = ITEM_ID, dropRate = 384, quantity = "1"  },  -- Leaf-Bladed Sword
+			{ itemID = 51989, dropRate = 384, quantity = "1"  },  -- Mystic Robe top (Light)
+			-- { itemID = ITEM_ID, dropRate = 384, quantity = "1"  },  -- Leaf-Bladed Battleaxe
+			-- Runes
+			{ itemID = 90091, dropRate = 12, quantity = "10"  },  -- Nature Rune
+			{ itemID = 90091, dropRate = 18, quantity = "15"  },  -- Nature Rune
+			{ itemID = 90091, dropRate = 32, quantity = "30"  },  -- Nature Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 51, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 68, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 91, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 117, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 149, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 205, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 273, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 328, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 410, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 546, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 546, quantity = "1"  }, -- Grimy dwarf weed
+			-- SEEDS TODO
+			-- Other
+			{ itemID = 590557, dropRate = 21, quantity = "100"  },  -- Flax (Noted)
+			{ itemID = 590626, dropRate = 21, quantity = "12"  },  -- White Berries (Noted)
+			{ itemID = 590036, dropRate = 25, quantity = "20"  },  -- Big Bones (Noted)
+			-- { itemID = ITEM_ID, dropRate = 31, quantity = "10"  },  -- Papaya Fruit (Noted)
+			{ itemID = 591091, dropRate = 31, quantity = "10"  },  -- Coconut (Noted)
+		}
+    },
+    -- Turoth NPC (ID: 441124)
+    [441124] = {
+        name = "Turoth",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Weapons and Armour
+			{ itemID = 90283, dropRate = 18, quantity = "1"  },  -- Steel platelegs
+			{ itemID = 90014, dropRate = 43, quantity = "1"  },  -- Mithril axe
+			{ itemID = 90312, dropRate = 128, quantity = "1"  },  -- Mithril kiteshield
+			{ itemID = 90338, dropRate = 128, quantity = "1"  },  -- Adamant full helm
+			{ itemID = 90361, dropRate = 128, quantity = "1"  },  -- Rune dagger
+			-- { itemID = ITEM_ID, dropRate = 500, quantity = "1"  },  -- Leaf-bladed sword
+			{ itemID = 51990, dropRate = 512, quantity = "1"  },  -- Mystic robe bottom (light)
+			-- Runes
+			{ itemID = 90139, dropRate = 21, quantity = "3"  },  -- Law rune
+			{ itemID = 90091, dropRate = 26, quantity = "15"  },  -- Nature rune
+			{ itemID = 90091, dropRate = 128, quantity = "17"  },  -- Nature rune
+			-- Herbs
+            { itemID = 90078, dropRate = 51, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 68, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 91, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 117, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 149, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 205, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 273, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 328, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 410, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 546, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 546, quantity = "1"  }, -- Grimy dwarf weed
+			-- SEEDS TODO
+			-- Materials
+			{ itemID = 90616, dropRate = 18, quantity = "1"  },  -- Limpwurt root
+		}
+    },
+    -- King Black Dragon NPC (ID: 441060)
+    [441060] = {
+        name = "King Black Dragon",
+        drops = {
+			-- Always
+			{ itemID = 90066, dropRate = 1, quantity = "1"  },  -- Dragon Bones
+			{ itemID = 90410, dropRate = 1, quantity = "1"  },  -- Black Dragonhide
+			-- Pre-Roll
+			{ itemID = 91120, dropRate = 1000, quantity = "1"  },  -- Dragon Pickaxe
+			-- Weapons and Armour
+			{ itemID = 90368, dropRate = 13, quantity = "1"  },  -- Rune Longsword
+			{ itemID = 90347, dropRate = 14, quantity = "1"  },  -- Adamant Platebody
+			{ itemID = 90343, dropRate = 43, quantity = "1"  },  -- Adamant Kiteshield
+			{ itemID = 91119, dropRate = 128, quantity = "1"  },  -- Dragon Med Helm
+			-- Runes and Ammunition
+			{ itemID = 90120, dropRate = 13, quantity = "300"  },  -- Air Rune
+			{ itemID = 90257, dropRate = 13, quantity = "690"  },  -- Iron arrow
+			{ itemID = 90389, dropRate = 13, quantity = "10-20"  },  -- Runite Bolts
+			{ itemID = 90070, dropRate = 26, quantity = "300"  },  -- Fire Rune
+			{ itemID = 90139, dropRate = 26, quantity = "30"  },  -- Law Rune
+			{ itemID = 90125, dropRate = 26, quantity = "30"  },  -- Blood Rune
+			-- Resources
+			{ itemID = 590004, dropRate = 13, quantity = "150"  },  -- Yew Logs (Noted)
+			{ itemID = 90157, dropRate = 26, quantity = "3"  },  -- Adamantite Bar
+			{ itemID = 90158, dropRate = 43, quantity = "1"  },  -- Runite Bar
+			{ itemID = 590025, dropRate = 64, quantity = "100"  },  -- Gold Ore (Noted)
+			-- Other
+			{ itemID = 90938, dropRate = 19, quantity = "1"  },  -- Amulet of Power
+			{ itemID = 90704, dropRate = 26, quantity = "5-14"  },  -- Dragon arrowtips
+			{ itemID = 90721, dropRate = 26, quantity = "5-14"  },  -- Dragon dart tip
+			-- { itemID = ITEM_ID, dropRate = 26, quantity = "15"  },  -- Dragon Javelin heads
+			{ itemID = 90402, dropRate = 32, quantity = "1"  },  -- Runite limbs
+			{ itemID = 90118, dropRate = 32, quantity = "4"  },  -- Shark
+		}
+    },
+    -- Pyrefiend NPC (ID: 441130) --NPC 83
+    [441130] = {
+        name = "Pyrefiend",
+        drops = {
+			-- Always
+			{ itemID = 90830, dropRate = 1, quantity = "1"  },  -- Fiendish Ashes
+			-- Weapons and Armour
+			{ itemID = 90012, dropRate = 32, quantity = "1"  },  -- Steel Axe
+			{ itemID = 90275, dropRate = 32, quantity = "1"  },  -- Steel Full Helm
+			{ itemID = 90836, dropRate = 43, quantity = "1"  },  -- Staff Of Fire
+			{ itemID = 90311, dropRate = 64, quantity = "1"  },  -- Mithril Chainbody
+			{ itemID = 90290, dropRate = 128, quantity = "1"  },  -- Steel Boots
+			{ itemID = 90332, dropRate = 128, quantity = "1"  },  -- Adamant Med Helm
+			-- Runes
+			{ itemID = 90070, dropRate = 6, quantity = "30"  },  -- Fire Rune
+			{ itemID = 90070, dropRate = 16, quantity = "60"  },  -- Fire Rune
+			{ itemID = 90052, dropRate = 26, quantity = "12"  },  -- Chaos Rune
+			{ itemID = 90133, dropRate = 43, quantity = "3"  },  -- Death Rune
+			-- Other
+			{ itemID = 90025, dropRate = 16, quantity = "1"  },  -- Gold Ore
+			{ itemID = 90137, dropRate = 64, quantity = "1"  },  -- Jug of Wine
+		}
+    },
+    -- Cockatrice NPC (ID: 441118)
+    [441118] = {
+        name = "Cockatrice",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Weapons and Armour
+			{ itemID = 90184, dropRate = 43, quantity = "1"  },  -- Iron Sword
+			{ itemID = 90267, dropRate = 43, quantity = "1"  },  -- Steel Dagger
+			{ itemID = 90251, dropRate = 128, quantity = "1"  },  -- Iron Boots
+			-- { itemID = ITEM_ID, dropRate = 128, quantity = "1"  },  -- Iron javelin
+			{ itemID = 90274, dropRate = 128, quantity = "1"  },  -- Steel Longsword
+			{ itemID = 51992, dropRate = 512, quantity = "1"  },  -- Mystic Boots (Light)
+			-- Runes
+			{ itemID = 90091, dropRate = 21, quantity = "2"  },  -- Nature Rune
+			{ itemID = 90091, dropRate = 32, quantity = "4"  },  -- Nature Rune
+			{ itemID = 90139, dropRate = 43, quantity = "2"  },  -- Law Rune
+			{ itemID = 90091, dropRate = 64, quantity = "6"  },  -- Nature Rune
+			{ itemID = 90107, dropRate = 64, quantity = "2"  },  -- Water Rune
+			{ itemID = 90070, dropRate = 64, quantity = "7"  },  -- Fire Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 51, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 68, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 91, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 117, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 149, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 205, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 273, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 328, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 410, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 546, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 546, quantity = "1"  }, -- Grimy dwarf weed
+			-- SEEDS TODO
+			-- Other
+			{ itemID = 90616, dropRate = 6, quantity = "1"  },  -- Limpwurt Root
+		}
+    },
+    -- Rockslug NPC (ID: 441120)
+    [441120] = {
+        name = "Rockslug",
+        drops = {
+			-- Armour
+			{ itemID = 51991, dropRate = 512, quantity = "1"  },  -- Mystic Gloves (Light)
+			-- Runes
+			{ itemID = 90067, dropRate = 4, quantity = "5"  },  -- Earth Rune
+			{ itemID = 90067, dropRate = 32, quantity = "42"  },  -- Earth Rune
+			{ itemID = 90052, dropRate = 32, quantity = "2"  },  -- Chaos Rune
+			-- Ores and Bars
+			{ itemID = 90026, dropRate = 6, quantity = "1"  },  -- Iron Ore
+			{ itemID = 90023, dropRate = 10, quantity = "1"  },  -- Coal
+			{ itemID = 90030, dropRate = 16, quantity = "1"  },  -- Tin Ore
+			{ itemID = 90155, dropRate = 43, quantity = "1"  },  -- Iron Bar
+			{ itemID = 90024, dropRate = 43, quantity = "1"  },  -- Copper Ore
+			{ itemID = 90153, dropRate = 64, quantity = "1"  },  -- Bronze Bar
+			{ itemID = 90027, dropRate = 128, quantity = "1"  },  -- Mithril Ore
+			-- SEEDS TODO
+			-- Other
+			{ itemID = 90865, dropRate = 10, quantity = "1"  },  -- Dwarven Stout
+			{ itemID = 90161, dropRate = 13, quantity = "1"  },  -- Hammer
+		}
+    },
+    -- Black Unicorn NPC (ID: 441800)
+    [441800] = {
+        name = "Black Unicorn",
+        drops = {
+			-- always
+            { itemID = 90039, dropRate = 1, quantity = "1" },  -- Bones
+            { itemID = 90624, dropRate = 1, quantity = "1" },  -- Unicorn Horn
+        }
+    },
+    -- Black Demon NPC (ID: 44106)
+    [44106] = {
+        name = "Black Demon",
+        drops = {
+			-- Always
+			{ itemID = 90840, dropRate = 1, quantity = "1"  },  -- Malicious Ashes
+			-- Weapons and Armour
+			{ itemID = 50507, dropRate = 32, quantity = "1"  },  -- Black Sword
+			{ itemID = 90266, dropRate = 43, quantity = "1"  },  -- Steel Battleaxe
+			{ itemID = 90013, dropRate = 64, quantity = "1"  },  -- Black Axe
+			{ itemID = 90312, dropRate = 128, quantity = "1"  },  -- Mithril kiteshield
+			{ itemID = 90363, dropRate = 128, quantity = "1"  },  -- Rune Med Helm
+			{ itemID = 90373, dropRate = 128, quantity = "1"  },  -- Rune Chainbody
+			-- Runes
+			{ itemID = 90120, dropRate = 16, quantity = "1"  },  -- Air Rune
+			{ itemID = 90052, dropRate = 18, quantity = "1"  },  -- Chaos Rune
+			{ itemID = 90125, dropRate = 32, quantity = "1"  },  -- Blood Rune
+			{ itemID = 90070, dropRate = 128, quantity = "1"  },  -- Fire Rune
+			{ itemID = 90139, dropRate = 128, quantity = "1"  },  -- Law Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 23, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 30, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 40, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 51, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 65, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 89, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 119, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 142, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 178, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 237, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 237, quantity = "1"  }, -- Grimy dwarf weed
+			-- Other
+			{ itemID = 90140, dropRate = 43, quantity = "1"  },  -- Lobster
+			{ itemID = 90157, dropRate = 64, quantity = "1"  },  -- Adamantite Bar
+			{ itemID = 90573, dropRate = 128, quantity = "1"  },  -- Defence Potion
+		}
+    },
+    -- Thug NPC (ID: 441187)
+    [441187] = {
+        name = "Thug",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Armour
+			{ itemID = 90182, dropRate = 32, quantity = "1"  },  -- Iron Med Helm
+			{ itemID = 90085, dropRate = 64, quantity = "1"  },  -- Iron battleaxe
+			{ itemID = 90012, dropRate = 128, quantity = "1"  },  -- Steel Axe
+			-- Runes
+			{ itemID = 90091, dropRate = 10, quantity = "2"  },  -- Nature Rune
+			{ itemID = 90052, dropRate = 32, quantity = "2"  },  -- Chaos Rune
+			{ itemID = 90130, dropRate = 128, quantity = "2"  },  -- Cosmic Rune
+			{ itemID = 90139, dropRate = 128, quantity = "2"  },  -- Law Rune
+			{ itemID = 90133, dropRate = 128, quantity = "2"  },  -- Death Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 21, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 28, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 38, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 49, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 62, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 85, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 114, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 136, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 171, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 228, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 228, quantity = "1"  }, -- Grimy dwarf weed
+			-- Resources
+			{ itemID = 90026, dropRate = 32, quantity = "1"  },  -- Iron Ore
+			{ itemID = 90155, dropRate = 43, quantity = "1"  },  -- Iron Bar
+			{ itemID = 90023, dropRate = 64, quantity = "1"  },  -- Coal
+		}
+    },
+    -- Outlaw NPC (ID: 442155)
+    [442155] = {
+        name = "Outlaw",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Armour
+			{ itemID = 90043, dropRate = 64, quantity = "1"  },  -- Bronze Med Helm
+			-- Runes
+			{ itemID = 90090, dropRate = 64, quantity = "9"  },  -- Mind Rune
+			{ itemID = 90107, dropRate = 64, quantity = "6"  },  -- Water Rune
+			{ itemID = 90067, dropRate = 64, quantity = "5"  },  -- Earth Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 16, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 21, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 28, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 37, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 47, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 64, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 85, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 102, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 128, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 171, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 171, quantity = "1"  }, -- Grimy dwarf weed
+			-- Other
+			{ itemID = 90099, dropRate = 3, quantity = "1"  },  -- Rope
+			{ itemID = 90034, dropRate = 9, quantity = "1"  },  -- Fishing Bait
+			{ itemID = 90050, dropRate = 21, quantity = "1"  },  -- Cabbage
+			{ itemID = 90024, dropRate = 64, quantity = "1"  },  -- Copper Ore
+			{ itemID = 90019, dropRate = 128, quantity = "1"  },  -- Knife
+		}
+    },
+    -- Cave crawler NPC (ID: 441107)
+    [441107] = {
+        name = "Cave crawler",
+        drops = {
+			-- Armour
+			{ itemID = 90235, dropRate = 128, quantity = "1"  },  -- Bronze Boots
+			-- Runes
+			{ itemID = 90091, dropRate = 21, quantity = "3-4"  },  -- Nature Rune
+			{ itemID = 90070, dropRate = 26, quantity = "12"  },  -- Fire Rune
+			{ itemID = 90067, dropRate = 64, quantity = "9"  },  -- Earth Rune
+			-- SEEDS TODO
+			-- Herbs
+            { itemID = 90078, dropRate = 23, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 31, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 41, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 53, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 68, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 93, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 124, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 149, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 186, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 248, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 248, quantity = "1"  }, -- Grimy dwarf weed
+			-- Materials
+			{ itemID = 90532, dropRate = 10, quantity = "1"  },  -- Vial of Water
+			{ itemID = 90626, dropRate = 26, quantity = "1"  },  -- White Berries
+			{ itemID = 90625, dropRate = 64, quantity = "1"  },  -- Unicorn Horn Dust
+			{ itemID = 90610, dropRate = 128, quantity = "1"  },  -- Eye of Newt
+			{ itemID = 90621, dropRate = 128, quantity = "1"  },  -- Red Spiders Eggs
+			{ itemID = 90616, dropRate = 128, quantity = "1"  },  -- Limpwurt Root
+			{ itemID = 90632, dropRate = 128, quantity = "1"  },  -- Snape Grass
+		}
+    },
+    -- Earth Warrior NPC (ID: 441792)
+    [441792] = {
+        name = "Earth Warrior",
+        drops = {
+			-- Weapons
+			-- { itemID = ITEM_ID, dropRate = 43, quantity = "1"  },  -- Steel Spear
+			{ itemID = 90839, dropRate = 64, quantity = "1"  },  -- Staff of Earth
+			-- Runes
+			{ itemID = 90067, dropRate = 10, quantity = "1"  },  -- Earth Rune
+			{ itemID = 90091, dropRate = 14, quantity = "1"  },  -- Nature Rune
+			{ itemID = 90052, dropRate = 18, quantity = "1"  },  -- Chaos Rune
+			{ itemID = 90139, dropRate = 21, quantity = "1"  },  -- Law Rune
+			{ itemID = 90133, dropRate = 32, quantity = "1"  },  -- Death Rune
+			{ itemID = 90067, dropRate = 43, quantity = "1"  },  -- Earth Rune
+			{ itemID = 90125, dropRate = 128, quantity = "1"  },  -- Blood Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 37, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 49, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 65, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 84, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 107, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 146, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 195, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 234, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 293, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 390, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 390, quantity = "1"  }, -- Grimy dwarf weed
+			-- SEEDS TODO
+		}
+    },
+    -- Deadly Red Spider NPC (ID: 441838)
+    [441838] = {
+        name = "Deadly Red Spider",
+        drops = {
+			-- EMPTY
+		}
+    },
+    -- Chaos Druid NPC (ID: 441182)
+    [441182] = {
+        name = "Chaos Druid",
+        drops = {
+			-- Always
+			{ itemID = 90039, dropRate = 1, quantity = "1"  },  -- Bones
+			-- Runes and Ammunition
+			{ itemID = 90139, dropRate = 19, quantity = "2"  },  -- Law Rune
+			{ itemID = 90322, dropRate = 32, quantity = "2-12"  },  -- Mithril Bolts
+			{ itemID = 90120, dropRate = 43, quantity = "36"  },  -- Air Rune
+			{ itemID = 90038, dropRate = 64, quantity = "9"  },  -- Body Rune
+			{ itemID = 90067, dropRate = 64, quantity = "9"  },  -- Earth Rune
+			{ itemID = 90090, dropRate = 64, quantity = "12"  },  -- Mind Rune
+			{ itemID = 90091, dropRate = 128, quantity = "3"  },  -- Nature Runne
+			-- Herbs
+            { itemID = 90078, dropRate = 11, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 15, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 20, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 25, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 32, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 44, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 59, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 71, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 89, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 119, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 119, quantity = "1"  }, -- Grimy dwarf weed
+			-- Other
+			{ itemID = 90532, dropRate = 13, quantity = "1"  },  -- Vial of Water
+			{ itemID = 90236, dropRate = 128, quantity = "1"  },  -- Bronze Longsword
+			{ itemID = 90632, dropRate = 128, quantity = "1"  },  -- Snape Grass
+			-- { itemID = ITEM_ID, dropRate = 128, quantity = "1"  },  -- Unholy Mould
+		}
+    },
+    -- Aberrant spectre NPC (ID: 441002)
+    [441002] = {
+        name = "Aberrant spectre",
+        drops = {
+			-- Weapons and Armour
+			{ itemID = 90012, dropRate = 43, quantity = "1"  },  -- Steel axe
+			{ itemID = 90312, dropRate = 128, quantity = "1"  },  -- Mithril kiteshield
+			{ itemID = 51348, dropRate = 128, quantity = "1"  },  -- Lava battlestaff
+			{ itemID = 90346, dropRate = 128, quantity = "1"  },  -- Adamant platelegs
+			{ itemID = 90369, dropRate = 128, quantity = "1"  },  -- Rune full helm
+			{ itemID = 51985, dropRate = 512, quantity = "1"  },  -- Mystic robe bottom (dark)
+			-- Herbs
+            { itemID = 90078, dropRate = 7, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 9, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 12, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 15, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 20, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 26, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 35, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 42, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 52, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 70, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 70, quantity = "1"  }, -- Grimy dwarf weed
+			-- SEEDS TODO
+		}
+    },
+    -- Gargoyle NPC (ID: 441111)
+    [441111] = {
+        name = "Gargoyle",
+        drops = {
+			-- Pre-Roll
+			{ itemID = 52012, dropRate = 256, quantity = "1"  },  -- Granite maul
+			{ itemID = 51984, dropRate = 512, quantity = "1"  },  -- Mystic robe top (dark)
+			-- Weapons and Armour
+			{ itemID = 90346, dropRate = 32, quantity = "1"  },  -- Adamant plateleg
+			{ itemID = 90369, dropRate = 43, quantity = "1"  },  -- Rune full helm
+			{ itemID = 90380, dropRate = 64, quantity = "1"  },  -- Rune 2h sword
+			{ itemID = 90353, dropRate = 128, quantity = "1"  },  -- Adamant boots
+			{ itemID = 90360, dropRate = 128, quantity = "1"  },  -- Rune battleaxe
+			{ itemID = 90378, dropRate = 128, quantity = "1"  },  -- Rune platelegs
+			-- Runes
+			{ itemID = 90070, dropRate = 13, quantity = "75"  },  -- Fire rune
+			{ itemID = 90052, dropRate = 16, quantity = "30"  },  -- Chaos rune	
+			{ itemID = 90070, dropRate = 21, quantity = "150"  },  -- Fire rune
+			{ itemID = 90133, dropRate = 26, quantity = "15"  },  -- Death rune	
+			-- Materials
+			{ itemID = 590025, dropRate = 13, quantity = "10-20"  },  -- Gold ore (Noted)
+			{ itemID = 590258, dropRate = 21, quantity = "150"  },  -- Pure essence (Noted)
+			{ itemID = 590154, dropRate = 21, quantity = "15"  },  -- Steel bar (Noted)
+			{ itemID = 590160, dropRate = 43, quantity = "10-15"  },  -- Gold bar (Noted)
+			{ itemID = 590156, dropRate = 64, quantity = "15"  },  -- Mithril bar (Noted)
+			{ itemID = 90028, dropRate = 64, quantity = "1"  },  -- Runite ore
+		}
+    },
+    -- Bloodveld NPC (ID: 441164)
+    [441164] = {
+        name = "Bloodveld",
+        drops = {
+			-- Always
+			{ itemID = 90841, dropRate = 1, quantity = "1"  },  -- Vile Ashes
+			-- Weapons and Armour
+			{ itemID = 90012, dropRate = 32, quantity = "1"  },  -- Steel axe
+			{ itemID = 90275, dropRate = 32, quantity = "1"  },  -- Steel full helm
+			{ itemID = 90272, dropRate = 64, quantity = "1"  },  -- Steel scimitar
+			{ itemID = 51993, dropRate = 128, quantity = "1"  },  -- Black boots
+			{ itemID = 90309, dropRate = 128, quantity = "1"  },  -- Mithril sq shield
+			{ itemID = 90311, dropRate = 128, quantity = "1"  },  -- Mithril chainbody
+			{ itemID = 90363, dropRate = 128, quantity = "1"  },  -- Rune med helm
+			-- Runes
+			{ itemID = 90070, dropRate = 16, quantity = "60"  },  -- Fire rune
+			{ itemID = 90125, dropRate = 26, quantity = "10"  },  -- Blood rune
+			{ itemID = 90125, dropRate = 43, quantity = "3"  },  -- Blood rune
+			{ itemID = 90125, dropRate = 128, quantity = "30"  },  -- Blood rune
+			-- Herbs
+            { itemID = 90078, dropRate = 512, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 683, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 910, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 1170, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 1490, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 2048, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 2731, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 3277, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 4096, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 5461, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 5461, quantity = "1"  }, -- Grimy dwarf weed
+			-- Other
+			{ itemID = 90039, dropRate = 13, quantity = "1"  },  -- Bones
+			{ itemID = 90036, dropRate = 19, quantity = "1"  },  -- Big bones
+			{ itemID = 90036, dropRate = 43, quantity = "3"  },  -- Big bones
+			{ itemID = 90264, dropRate = 43, quantity = "1"  },  -- Meat pizza
+			{ itemID = 90025, dropRate = 64, quantity = "1"  },  -- Gold ore
+		}
+    },
     -- Lizard NPC (ID: 441146)
     [441146] = {
         name = "Lizard",
@@ -588,7 +1089,7 @@ NPCData = {
 			-- Always
             { itemID = 90036, dropRate = 1, quantity = "1"  },  -- Big Bones (1 in 1 = 100%)
 			-- Weapons and Armour
-            -- { itemID = ITEM_ID, dropRate = 26, quantity = "1"  },  -- Black sq Shield
+            { itemID = 50486, dropRate = 26, quantity = "1"  },  -- Black sq Shield
             { itemID = 90871, dropRate = 64, quantity = "1"  },  -- Magic Staff
             { itemID = 90269, dropRate = 64, quantity = "1"  },  -- Steel Med Helm
             { itemID = 90303, dropRate = 64, quantity = "1"  },  -- Mithril Sword
@@ -1455,45 +1956,6 @@ NPCData = {
 			{ itemID = 90105, dropRate = 128, quantity = "1" },  -- Air Talisman
         }
     },
-    -- GOBLIN2 NPC (ID: 441845) --USING ONLY 1 LOOTTABLE AS THEY MIXED IT; IT SEEMS LIKE IT
-    --[441845] = {
-        --name = "Goblin #2",
-        --drops = {
-			-- always
-            --{ itemID = 90039, dropRate = 1, quantity = "1" },  -- Bones
-			-- Weapons and armour
-			-- { itemID = 0, dropRate = 32, quantity = "1" },  -- Bronze Spear
-			-- { itemID = 0, dropRate = 43, quantity = "1" },  -- Bronze Axe
-			-- { itemID = 0, dropRate = 43, quantity = "1" },  -- Bronze Scimitar
-			-- Runes and ammunition
-			-- { itemID = 0, dropRate = 22, quantity = "6" },  -- Bronze arrow
-			-- { itemID = 0, dropRate = 26, quantity = "7" },  -- Mind runes
-			-- { itemID = 0, dropRate = 43, quantity = "4" },  -- Earth runes
-			-- { itemID = 0, dropRate = 43, quantity = "8" },  -- Body runes
-			-- { itemID = 0, dropRate = 26, quantity = "7" },  -- bronze javelin
-			-- { itemID = 0, dropRate = 43, quantity = "4" },  -- chaos runes
-			-- { itemID = 0, dropRate = 43, quantity = "8" },  -- Nature Runes
-			-- Herbs
-            --{ itemID = 90078, dropRate = 256, quantity = "1"  }, -- Grimy guam leaf
-            --{ itemID = 90083, dropRate = 341, quantity = "1"  }, -- Grimy marrentill
-            --{ itemID = 90207, dropRate = 455, quantity = "1"  }, -- Grimy Tarromin
-            --{ itemID = 90079, dropRate = 585, quantity = "1"  }, -- Grimy harralander
-            --{ itemID = 90084, dropRate = 744, quantity = "1"  }, -- Grimy ranarr weed
-            --{ itemID = 90080, dropRate = 1024, quantity = "1"  }, -- Grimy irit leaf
-            --{ itemID = 90075, dropRate = 1365, quantity = "1"  }, -- Grimy avantoe
-            --{ itemID = 90081, dropRate = 1638, quantity = "1"  }, -- Grimy kwuarm
-            --{ itemID = 90076, dropRate = 2048, quantity = "1"  }, -- Grimy cadantine
-			--{ itemID = 90082, dropRate = 2731, quantity = "1"  }, -- Grimy lantadyme
-			--{ itemID = 90077, dropRate = 2731, quantity = "1"  }, -- Grimy dwarf weed
-			-- Other
-			-- { itemID = 0, dropRate = 9, quantity = "1" },  -- Hammer
-			-- { itemID = 0, dropRate = 26, quantity = "1" },  -- Goblin mail
-			-- { itemID = 0, dropRate = 43, quantity = "1" },  -- Grapes
-			-- { itemID = 0, dropRate = 64, quantity = "1" },  -- Goblin book
-			-- { itemID = 0, dropRate = 64, quantity = "1" },  -- Red cape
-			-- { itemID = 0, dropRate = 128, quantity = "1" },  -- Tin ore
-       -- }
-   -- },
     -- IMP NPC (ID: 442293)
     [442293] = {
         name = "Imp",
@@ -1539,7 +2001,6 @@ NPCData = {
 			--{ itemID = ITEM_ID, dropRate = 128, quantity = "1"  }, -- Potion
         }
     },
-
     -- MAN NPC (ID: 441831)
     [441831] = {
         name = "Man",
@@ -1569,7 +2030,6 @@ NPCData = {
 			{ itemID = 90050, dropRate = 128, quantity = "1"  }, -- Cabbage
         }
     },
-
     -- Woman NPC (ID: 441832)
     [441832] = {
         name = "Woman",
@@ -1598,8 +2058,7 @@ NPCData = {
 			{ itemID = 90208, dropRate = 64, quantity = "1"  }, -- Earth talisman
 			{ itemID = 90050, dropRate = 128, quantity = "1"  }, -- Cabbage
         }
-    },
-	
+    },	
     -- Guard NPC (ID: 441467)
     [441467] = {
         name = "Guard",
@@ -1621,8 +2080,7 @@ NPCData = {
             { itemID = 90086, dropRate = 21, quantity = "1"  },  -- Iron Dagger
             { itemID = 90822, dropRate = 43, quantity = "1"  },  -- Body Talisman
         }
-    },
-	
+    },	
     -- Dark Wizard NPC (ID: 441174)
     [441174] = {
         name = "Dark Wizard",
