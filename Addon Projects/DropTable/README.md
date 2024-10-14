@@ -1,6 +1,8 @@
+# DropTable for WoRS Pre-Alpha
+
 ![alt text](https://github.com/dagsvik/WORS-Addons/blob/main/Addon%20Projects/DropTable/Docs/DropTableIMG001.png)
 
-# DropTable for WoRS Pre-Alpha
+
 - Made by Dagsvik
 - Loottable Filled by Robban/Snickers
 
