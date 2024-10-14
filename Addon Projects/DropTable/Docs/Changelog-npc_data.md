@@ -1,7 +1,25 @@
 #Changelog for NPC_DATA.LUA
 
+### 2024-10-14
+- Added Bloodveld
+- Added Gargoyle
+- Added Aberrant spectre
+- Added Chaos Druid
+- Added Deadly Red Spider
+- Added Earth Warrior
+- Added Cave crawler
+- Added Outlaw
+- Added Thug
+- Added Black Demon
+- Added Black Unicorn
+- Added Rockslug
+- Added Coackatrice
+- Added King Black Dragon
+- Added Turoth
+- Added Kurask
+
 ### 2024-10-13
-- Added Missed loot //Thanks to Untitiled
+- Added Missing loot //Thanks to Untitiled
 - Added Kalphite Soldier
 - Added Kalphite Worker
 - Added Kalphite Guardian
