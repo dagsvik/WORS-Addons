@@ -63,6 +63,7 @@
 - Iron Mace 90181
 - Iron Dagger 90086
 - Iron Sword 90184
+- Iron scimitar 90186
 - Iron Longsword 90118
 - Iron Platebody 90198
 - Iron Platelegs 90197
@@ -78,6 +79,7 @@
 - Steel Battleaxe 9026
 - Steel Dagger 90267
 - Steel Sword 90271
+- Steel scimitar 90272
 - Steel Longsword 90274
 - Steel 2h Longsword 90286
 - Mithril Arrow 90328
@@ -86,6 +88,7 @@
 - Mithril Axe 90014
 - Mithril Dagger 90299
 - Mithril Sword 90303
+- Mithril Scimitar 90304
 - Mithril Longsword 90306
 - Mithril Mace 90300
 - Adamant Arrow 90359
@@ -169,6 +172,7 @@
 - Secateurs 90818
 - Fishing Bait 90034
 - Grain 90074
+- Jug of wine 90137
 - Rope 90099
 - Eye of Newts 90610
 - Cabbage 90050
