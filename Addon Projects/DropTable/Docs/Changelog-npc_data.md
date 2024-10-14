@@ -1,4 +1,4 @@
-# Changelog for NPC_DATA.LUA
+#Changelog for NPC_DATA.LUA
 
 ### 2024-10-14
 - Added Bloodveld
@@ -17,6 +17,7 @@
 - Added King Black Dragon
 - Added Turoth
 - Added Kurask
+- Added Jelly
 
 ### 2024-10-13
 - Added Missing loot //Thanks to Untitiled

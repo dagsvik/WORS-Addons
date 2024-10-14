@@ -25,12 +25,9 @@
 - King Black Dragon -100 - 441060 //Done
 - Turoth 			-89 - 441124 //Done
 - Kurask 			-106 - 441109 //Done
-
+- Jelly 			-78 - 441132 // Done
 - Kalphite Queen		- ? currently disabled
 - Black Dragon			- Not Ingame ?
-
-- Jelly 			-78 - 441132 //Dont know the loottable they have
-
 
 # TEMPLATE
     -- NPCNAME NPC (ID: NPCID)

@@ -2,6 +2,24 @@
 
 -- This table stores NPCs and their drop tables with item IDs and drop rates
 NPCData = {
+    -- Jelly NPC (ID: 441132) --NPC 87
+    [441132] = {
+        name = "Jelly",
+        drops = {
+			-- Weapons And Armour
+			{ itemID = 90266, dropRate = 12, quantity = "1"  },  -- Steel Battleaxe
+			{ itemID = 90286, dropRate = 19, quantity = "1"  },  -- Steel 2h Sword
+			{ itemID = 90012, dropRate = 43, quantity = "1"  },  -- Steel Axe
+			{ itemID = 90312, dropRate = 64, quantity = "1"  },  -- Mithril Kiteshield
+			{ itemID = 90322, dropRate = 128, quantity = "1"  },  -- Mithril Boots
+			{ itemID = 90369, dropRate = 128, quantity = "1"  },  -- Rune Full Helm
+			-- Other
+			{ itemID = 90052, dropRate = 26, quantity = "15"  },  -- Chaos Rune
+			{ itemID = 90133, dropRate = 43, quantity = "5"  },  -- Death Rune
+			{ itemID = 90513, dropRate = 64, quantity = "1"  },  -- Thread
+			{ itemID = 90160, dropRate = 128, quantity = "10"  },  -- Gold Bar
+		}
+    },
     -- Kurask NPC (ID: 441109) --NPC 86
     [441109] = {
         name = "Kurask",
