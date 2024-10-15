@@ -98,7 +98,18 @@ local experienceTable = {
     [96] = 9684577,
     [97] = 10692629,
     [98] = 11805606,
-    [99] = 13034431
+    [99] = 13034431,
+    [100] = 14391160,
+	[101] = 15889109,
+	[102] = 17542976,
+	[103] = 19368992, 
+	[104] = 21385073,
+	[105] = 23611006,
+	[106] = 26068632,
+	[107] = 28782069,
+	[108] = 31777943,
+	[109] = 35085654,
+	[110] = 38737661
 }
 
 local FactionData = {
@@ -230,7 +241,7 @@ local FactionColorData = {
 
 local function GetSkillXP(skillID)
     local name, desc, standingID, barMin, barMax, barValue, _, _, _, isHeader, _, _, _, factionID = GetFactionInfoByID(skillID)
-    return (barValue - barMin)  -- Adjusted to reflect the actual skill progress
+    return (barValue - barMax)  -- Adjusted to reflect the actual skill progress
 end
 
 local function GetSkillProgress(skillID)
@@ -247,16 +258,16 @@ local function GetSkillProgress(skillID)
     end
 
     -- If the currentXP exceeds the max level, set it to max level
-    if currentXP >= experienceTable[99] then
-        currentLevel = 99
-    end
+    --if currentXP >= experienceTable[99] then
+        --currentLevel = 99
+    --end
 
     -- XP required for current level and next level
-    local xpForCurrentLevel = experienceTable[currentLevel]
-    local xpForNextLevel = experienceTable[currentLevel + 1] or experienceTable[currentLevel]
-
+	local xpForCurrentLevel = experienceTable[currentLevel]
+	local xpForNextLevel = experienceTable[currentLevel + 1]
+	
     -- Remaining XP to the next level
-    local remainingXP = xpForNextLevel - currentXP
+    local remainingXP = xpForNextLevel - currentXP-- + 1000
 
     -- Progress percentage
     local progressPercent = ((currentXP - xpForCurrentLevel) / (xpForNextLevel - xpForCurrentLevel)) * 100
@@ -358,21 +369,21 @@ local function CreateSkillFrame(skillName, factionID, parentFrame, index)
     -- Current level text (left side on the progress bar)
     local currentLevelText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     currentLevelText:SetPoint("LEFT", textContainer, "LEFT", 6, 0)
-    currentLevelText:SetText("Lvl. 70")
+    currentLevelText:SetText("Lvl. 99")
     currentLevelText:SetTextColor(1, 1, 1)  -- Set text color to white
     currentLevelText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
 
     -- Progress percentage text (centered on the progress bar)
     local progressPercentageText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     progressPercentageText:SetPoint("CENTER", textContainer, "CENTER", 0, 0)
-    progressPercentageText:SetText("45.09%")
+    progressPercentageText:SetText("100%")
     progressPercentageText:SetTextColor(1, 1, 1)  -- Set text color to white
     progressPercentageText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
 
     -- Next level text (right side on the progress bar)
     local nextLevelText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     nextLevelText:SetPoint("RIGHT", textContainer, "RIGHT", -4, 0)
-    nextLevelText:SetText("Lvl. 71")
+    nextLevelText:SetText("Lvl. 99")
     nextLevelText:SetTextColor(1, 1, 1)  -- Set text color to white
     nextLevelText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
 
@@ -404,7 +415,7 @@ local function UpdateSkillFrame(skillFrame, skillData)
     if timeElapsed <= 0 then
         timeElapsed = 0.0001  -- Use a very small number to avoid zero-division
     end
-
+	
     -- Update the total XP gained
     skillFrame.TotalXpGained = skillFrame.TotalXpGained + skillData.xpGained
 
@@ -415,17 +426,16 @@ local function UpdateSkillFrame(skillFrame, skillData)
     skillFrame.xpGainedText:SetText("XP Gained: " .. skillFrame.TotalXpGained)
     skillFrame.xpPerHourText:SetText("XP/hr: " .. skillData.xpPerHour)
     skillFrame.xpLeftText:SetText("XP Left: " .. skillData.xpLeft)
-    skillFrame.actionsText:SetText("Actions: " .. skillData.actions)
+	skillFrame.actionsText:SetText("Actions: " .. skillData.actions)
     skillFrame.skillIcon:SetText(skillData.skillIcon)
     
     -- Update the progress bar and percentage
     skillFrame.progressBar:SetMinMaxValues(0, 100)
     skillFrame.progressBar:SetValue(skillData.progressPercent)
     skillFrame.progressPercentageText:SetText(string.format("%.2f%%", skillData.progressPercent))
-
-    -- Update level information
-    skillFrame.currentLevelText:SetText("Lvl. " .. skillData.currentLevel)
-    skillFrame.nextLevelText:SetText("Lvl. " .. (skillData.currentLevel + 1))
+	-- Update level information
+	skillFrame.currentLevelText:SetText("Lvl. " .. skillData.currentLevel)
+	skillFrame.nextLevelText:SetText("Lvl. " .. (skillData.currentLevel + 1))
 
     -- Show the frame when it's updated
     skillFrame:Show()
@@ -515,7 +525,6 @@ XPTracker:RegisterEvent("PLAYER_ENTERING_WORLD") -- Register event to initialize
 XPTracker:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         -- Initialize tracking session on login
-        ResetSession()
         panel:Show() -- Show the tracker panel
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         local message = ...
@@ -566,8 +575,3 @@ end)
 
 
 
--- Create a slash command to reset the session
-SLASH_XPTRACKER1 = "/xptrackreset"
-SlashCmdList["XPTRACKER"] = function()
-    ResetSession()
-end
