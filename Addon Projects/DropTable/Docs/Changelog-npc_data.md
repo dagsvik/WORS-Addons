@@ -1,4 +1,6 @@
 #Changelog for NPC_DATA.LUA
+### 2024-10-15
+- Added Lesser Demon
 
 ### 2024-10-14
 - Added Bloodveld

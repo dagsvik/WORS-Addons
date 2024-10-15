@@ -2,6 +2,39 @@
 
 -- This table stores NPCs and their drop tables with item IDs and drop rates
 NPCData = {
+    -- Lesser Demon NPC (ID: 441586) --NPC 88
+    [441586] = {
+        name = "Lesser Demon",
+        drops = {
+			-- Weapons And Armour
+			{ itemID = 90275, dropRate = 32, quantity = "1"  },  -- Steel Full Helm
+			{ itemID = 90012, dropRate = 32, quantity = "1"  },  -- Steel Axe
+			{ itemID = 90272, dropRate = 43, quantity = "1"  },  -- Steel Scimitar
+			{ itemID = 90309, dropRate = 128, quantity = "1"  },  -- Mithril square shield
+			{ itemID = 90311, dropRate = 128, quantity = "1"  },  -- Mithril Chainbody
+			{ itemID = 90363, dropRate = 128, quantity = "1"  },  -- Rune med helm
+			-- Runes
+			{ itemID = 90070, dropRate = 16, quantity = "60"  },  -- Fire Rune
+			{ itemID = 90052, dropRate = 26, quantity = "12"  },  -- Chaos Rune
+			{ itemID = 90133, dropRate = 43, quantity = "3"  },  -- Death Rune
+			{ itemID = 90070, dropRate = 128, quantity = "30"  },  -- Fire Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 512, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 682, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 910, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 1170, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 1490, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 2048, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 2731, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 3277, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 4096, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 5461, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 5461, quantity = "1"  }, -- Grimy dwarf weed
+			-- Other
+			{ itemID = 90137, dropRate = 43, quantity = "10"  },  -- Jug of Wine
+			{ itemID = 90025, dropRate = 64, quantity = "10"  },  -- Gold Ore
+		}
+    },
     -- Jelly NPC (ID: 441132) --NPC 87
     [441132] = {
         name = "Jelly",
