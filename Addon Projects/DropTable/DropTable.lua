@@ -118,7 +118,7 @@ local function CreateNPCListFrame()
     frame.itemList = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     frame.itemList:SetPoint("TOPLEFT", 600, -10)
     frame.itemList:SetTextColor(201,132,55,1)
-    frame.itemList:SetText("NPC List")
+    frame.itemList:SetText("Item List")
     frame.itemList:SetJustifyH("LEFT")
     frame.itemList:SetJustifyV("CENTER")
     frame.itemList:SetFont("Fonts\\runescape_bold.ttf", 20)
@@ -303,8 +303,8 @@ local function CreateNPCListFrame()
             -- Create item button if it doesn't exist
             if not itemButton then
                 itemButton = CreateFrame("Button", nil, itemContent)
-                itemButton:SetSize(240, 70)  -- Increased height to allow space for quantity
-                itemButton:SetPoint("TOPLEFT", itemContent, "TOPLEFT", 0, -((index - 1) * 75))
+                itemButton:SetSize(240, 50)  -- Increased height to allow space for quantity
+                itemButton:SetPoint("TOPLEFT", itemContent, "TOPLEFT", 0, -((index - 1) * 55))
 				
                 -- Create item icon
                 itemButton.icon = itemButton:CreateTexture(nil, "BACKGROUND")
@@ -330,7 +330,7 @@ local function CreateNPCListFrame()
             
             itemButton:SetScript("OnClick", function()
                 local thisItemID = itemID
-                frame.ItemNameSelected:SetText(itemLink)
+                frame.ItemNameSelected:SetText(itemLink:gsub("%]",""):gsub("%[",""))
                 PopulateNPCListFilter(thisItemID)
                 --print(itemName)
                 --print(thisItemID)
@@ -512,6 +512,7 @@ local function CreateNPCListFrame()
                 if not filteredText or itemName:lower():find(filteredText) then
                     index = index + 1
                     local itemButton = itemListSearch[index]
+					
     
                     -- Create the button if it doesn't exist
                     if not itemButton then
@@ -531,12 +532,12 @@ local function CreateNPCListFrame()
                     end
     
                     -- Update the item button text and show it
-                    itemButton.text:SetText(itemLink)
+                    itemButton.text:SetText(itemLink:gsub("%]",""):gsub("%[",""))
                     itemButton.itemID = itemID  -- Store the itemID in the button
     
                     -- Set click handler for item button
                     itemButton:SetScript("OnClick", function()
-                        frame.ItemNameSelected:SetText(itemLink)
+                        frame.ItemNameSelected:SetText(itemLink:gsub("%]",""):gsub("%[",""))
                         PopulateNPCListFilter(itemID)
                     end)
     
