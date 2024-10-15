@@ -57,7 +57,7 @@ end
 local function CreateNPCListFrame()
 	local SuperParent = CreateFrame("Frame", "ParentNPCListFrame", UIParent)
 	----SetSize
-	SuperParent:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+	SuperParent:SetSize(780, 400)  -- Increase width to make space for the item list on the left
     SuperParent:SetPoint("CENTER", UIParent, "CENTER")
 
 	-- (2)
@@ -84,7 +84,7 @@ local function CreateNPCListFrame()
 	bgframe:SetParent(ParentNPCListFrame)
 	
 	----SetSize
-	bgframe:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+	bgframe:SetSize(780, 400)  -- Increase width to make space for the item list on the left
     bgframe:SetPoint("CENTER")
 
     -- Set background and borders manually
@@ -110,54 +110,125 @@ local function CreateNPCListFrame()
 	frame:SetIgnoreParentAlpha(true)
 	
 	--SetSize
-    frame:SetSize(600, 400)  -- Increase width to make space for the item list on the left
+    frame:SetSize(780, 400)  -- Increase width to make space for the item list on the left
     frame:SetPoint("CENTER")
 
-    -- Set background and borders manually
-    --
-	--frame:SetBackdrop({
-    --    bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
-    --    edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
-    --    tile = false, tileSize = 32, edgeSize = 32,
-    --    insets = { left = 4, right = 4, top = 4, bottom = 4 }
-    --})
-	
-    -- Set the title of the frame
+
+    -- Item List
+    frame.itemList = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    frame.itemList:SetPoint("TOPLEFT", 600, -10)
+    frame.itemList:SetTextColor(201,132,55,1)
+    frame.itemList:SetText("NPC List")
+    frame.itemList:SetJustifyH("LEFT")
+    frame.itemList:SetJustifyV("CENTER")
+    frame.itemList:SetFont("Fonts\\runescape_bold.ttf", 20)
+
+    -- Line separator for Item List
+    local LineSeperatorItemList = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorItemList:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorItemList:SetSize(150, 2)
+    LineSeperatorItemList:SetPoint("TOPLEFT", frame, "TOPLEFT", 600, -28)
+
+    -- Create the input box for filtering Items (Customized similarly)
+    local inputBoxItem = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+    inputBoxItem:SetSize(146, 20)
+    inputBoxItem:SetPoint("TOPLEFT", frame, "TOPLEFT", 600, -35)
+    inputBoxItem:SetAutoFocus(false)
+    inputBoxItem:SetBackdrop({
+        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true, tileSize = 5, edgeSize = 5,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 }
+    })
+    inputBoxItem:SetBackdropColor(0.1, 0.1, 0.1, 1)  -- Dark grey background
+    inputBoxItem:SetBackdropBorderColor(0.3, 0.3, 0.3, 1)  -- Border color
+
+    inputBoxItem:SetScript("OnTextChanged", function(self)
+        local textChanged2 = self:GetText():lower()
+        --print("Text change registered button")
+        PopulateItemListFilter(textChanged2)
+    end)
+
+ 
+    -- Scrollable area for Item List
+    local itemScrollFrameSearch = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+    itemScrollFrameSearch:SetPoint("TOPLEFT", frame, "TOPLEFT", 600, -60)
+    itemScrollFrameSearch:SetSize(150, 300)
+
+    -- Create a container for the scrollable content (Item List)
+    local itemContentSearch = CreateFrame("Frame", nil, itemScrollFrameSearch)
+    itemContentSearch:SetSize(150, 300)
+    itemScrollFrameSearch:SetScrollChild(itemContentSearch)
+
+    -- NPC List
     frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    frame.title:SetPoint("TOPLEFT", 437, -20)
+    frame.title:SetPoint("TOPLEFT", 410, -10)
+    frame.title:SetTextColor(201,132,55,1)
     frame.title:SetText("NPC List")
+    frame.title:SetJustifyH("LEFT")
+    frame.title:SetJustifyV("CENTER")
+    frame.title:SetFont("Fonts\\runescape_bold.ttf", 20)
 
-    -- Set the title of the frame
+    -- Line separator for NPC List
+    local LineSeperatorNPCList = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorNPCList:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorNPCList:SetSize(150, 2)
+    LineSeperatorNPCList:SetPoint("TOPLEFT", frame, "TOPLEFT", 410, -28)
+
+    -- NPC Name Selected
     frame.NpcNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    frame.NpcNameSelected:SetPoint("TOPLEFT", 20, -42)
-	frame.NpcNameSelected:SetTextColor(201,132,55,1)
+    frame.NpcNameSelected:SetPoint("TOPLEFT", 20, -10)
+    frame.NpcNameSelected:SetTextColor(201,132,55,1)
     frame.NpcNameSelected:SetText("Npc Name")
-	frame.NpcNameSelected:SetJustifyH("LEFT")
-	frame.NpcNameSelected:SetJustifyV("CENTER")
-	frame.NpcNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
-	
-	--Line seperator
-	local LineSeperator = frame:CreateTexture()
-	LineSeperator:SetTexture(nil)
-	LineSeperator:SetColorTexture(.6 ,.6, .6, .2)
-	LineSeperator:SetSize(220, 2)
-	LineSeperator:SetPoint("TOPLEFT", BGNPCListFrame, 20, -60)
+    frame.NpcNameSelected:SetJustifyH("LEFT")
+    frame.NpcNameSelected:SetJustifyV("CENTER")
+    frame.NpcNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
 
-    -- Create the input box for filtering NPCs
+    -- Line separator for NPC Name
+    local LineSeperatorNPCName = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorNPCName:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorNPCName:SetSize(170, 2)
+    LineSeperatorNPCName:SetPoint("TOPLEFT", frame, "TOPLEFT", 20, -28)
+
+    -- ITEM Name Selected
+    frame.ItemNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    frame.ItemNameSelected:SetPoint("TOPLEFT", 220, -10)
+    frame.ItemNameSelected:SetTextColor(201,132,55,1)
+    frame.ItemNameSelected:SetText("Item Name")
+    frame.ItemNameSelected:SetJustifyH("LEFT")
+    frame.ItemNameSelected:SetJustifyV("CENTER")
+    frame.ItemNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
+
+    -- Line separator for Item Name
+    local LineSeperatorItemName = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorItemName:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorItemName:SetSize(170, 2)
+    LineSeperatorItemName:SetPoint("TOPLEFT", frame, "TOPLEFT", 220, -28)
+
+    -- Create the input box for filtering NPCs (Customized to avoid dark/transparent issues)
     local inputBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-	
-    inputBox:SetSize(150, 20)
-    inputBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -40)
+    inputBox:SetSize(146, 20)
+    inputBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 414, -35)
     inputBox:SetAutoFocus(false)
+    inputBox:SetBackdrop({
+        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true, tileSize = 5, edgeSize = 5,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 }
+    })
+    inputBox:SetBackdropColor(0.1, 0.1, 0.1, 1)  -- Dark grey background
+    inputBox:SetBackdropBorderColor(0.3, 0.3, 0.3, 1)  -- Border color
+
     inputBox:SetScript("OnTextChanged", function(self)
         local text = self:GetText():lower()
         UpdateNPCList(text)
     end)
 
+
     -- Scrollable area for NPCs
     local npcScrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
 
-	npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 390, -70)
+	npcScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 410, -60)
     npcScrollFrame:SetSize(150, 300)
 
     -- Create a container for the scrollable content (NPC List)
@@ -165,20 +236,37 @@ local function CreateNPCListFrame()
     npcContent:SetSize(150, 300)
     npcScrollFrame:SetScrollChild(npcContent)
 
-    -- Create the list for NPC entries
-    local npcList = {}
+
 
     -- Create a container for the items to the left of the NPC list
     local itemScrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    itemScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 20, -70)
-    itemScrollFrame:SetSize(220, 300)
+    itemScrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 20, -60)
+    itemScrollFrame:SetSize(170, 300)
 
     local itemContent = CreateFrame("Frame", nil, itemScrollFrame)
-    itemContent:SetSize(220, 300)
+    itemContent:SetSize(170, 300)
     itemScrollFrame:SetScrollChild(itemContent)
 
+
+
+    -- Scrollable area for NPCs that drop item.
+    local npcScrollFrameSearch = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+
+	npcScrollFrameSearch:SetPoint("TOPLEFT", frame, "TOPLEFT", 220, -60)
+    npcScrollFrameSearch:SetSize(150, 300)
+
+    -- Create a container for the scrollable content (NPC List)
+    local npcContentSearch = CreateFrame("Frame", nil, npcScrollFrameSearch)
+    npcContentSearch:SetSize(150, 300)
+    npcScrollFrameSearch:SetScrollChild(npcContentSearch)
+
+
+    -- Create the list for NPC entries
+    local npcList = {}
     local itemList = {}  -- List of items to display when NPC is clicked
 
+    local itemListSearch = {}  -- List of items to display when NPC is clicked
+    local npcListSearch = {}
     -- Function to clear the item list
     local function ClearItemList()
         for _, button in ipairs(itemList) do
@@ -187,7 +275,7 @@ local function CreateNPCListFrame()
     end
 
     -- Function to populate the item list when an NPC is clicked
-    local function PopulateItemList(npcID)
+    function PopulateItemList(npcID)
         -- Clear the current item list
         ClearItemList()
 
@@ -222,6 +310,7 @@ local function CreateNPCListFrame()
                 itemButton.icon = itemButton:CreateTexture(nil, "BACKGROUND")
                 itemButton.icon:SetSize(32, 32)
                 itemButton.icon:SetPoint("LEFT", itemButton, "LEFT", 4, 0)
+                itemButton:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 
                 -- Create item text (name)
                 itemButton.text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -234,10 +323,19 @@ local function CreateNPCListFrame()
                 -- Create drop rate text (below quantity)
                 itemButton.dropRateText = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
                 itemButton.dropRateText:SetPoint("LEFT", itemButton.icon, "RIGHT", 10, -15)
-
+                
                 -- Add the itemButton to itemList
                 itemList[index] = itemButton
             end
+            
+            itemButton:SetScript("OnClick", function()
+                local thisItemID = itemID
+                frame.ItemNameSelected:SetText(itemLink)
+                PopulateNPCListFilter(thisItemID)
+                --print(itemName)
+                --print(thisItemID)
+                -- Add any other actions you want to happen when an NPC is clicked
+            end)
 
             -- Update the icon, name, quantity, and drop rate
             if itemIcon then
@@ -273,8 +371,70 @@ local function CreateNPCListFrame()
         itemContent:SetHeight(math.max(totalHeight, 300))
     end
 	
+    -- Function to populate the NPC list based on the itemID
+    function PopulateNPCListFilter(itemID)
+        -- Clear the previous NPC list
+        for _, button in ipairs(npcListSearch) do
+            button:Hide()  -- Hide all previous buttons before repopulating
+        end
+
+        local index = 0
+
+        -- Check if the itemID exists in ITEMData
+        local npcListForItem = ITEMData[itemID]
+        if not npcListForItem then
+            --print("No NPCs found for itemID:", itemID)
+            return
+        end
+
+        -- Iterate over the list of NPCs that drop this item
+        for _, npcInfo in ipairs(npcListForItem) do
+            local npcName = npcInfo.npcName
+            local npcID = npcInfo.npcID
+
+            index = index + 1
+            local npcButton = npcListSearch[index]
+
+            -- Create the button if it doesn't exist
+            if not npcButton then
+                npcButton = CreateFrame("Button", nil, npcContentSearch)
+                npcButton:SetSize(150, 20)
+                npcButton:SetPoint("TOPLEFT", npcContentSearch, "TOPLEFT", 0, -((index - 1) * 25))
+
+                -- Create hover effect
+                npcButton:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+
+                -- Create a font string for the NPC name
+                npcButton.text = npcButton:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+                npcButton.text:SetPoint("LEFT", npcButton, "LEFT", 5, 0)
+
+                -- Add button to the npcList
+                npcListSearch[index] = npcButton
+            end
+
+            -- Update the NPC button text and show it
+            npcButton.text:SetText(npcName)
+            npcButton.npcID = npcID  -- Store the NPC's ID in the button
+
+            -- Set click handler for NPC button (You can add any functionality if needed when clicked)
+            npcButton:SetScript("OnClick", function()
+                frame.NpcNameSelected:SetText(npcName)
+                PopulateItemList(npcID)
+                -- Add any other actions you want to happen when an NPC is clicked
+            end)
+
+            -- Show the button
+            npcButton:Show()
+        end
+
+        -- Adjust content height based on the number of NPCs
+        local totalHeight = index * 25
+        npcContentSearch:SetHeight(math.max(totalHeight, 300))
+    end
+
+
     -- Function to populate the NPC list dynamically from NPCData
-    local function PopulateNPCList(filteredText)
+    function PopulateNPCList(filteredText)
         for _, button in ipairs(npcList) do
             button:Hide()  -- Hide all previous buttons before repopulating
         end
@@ -331,58 +491,75 @@ local function CreateNPCListFrame()
         PopulateNPCList(filterText)
     end
 
+    function PopulateItemListFilter(filteredText)
+        -- Ensure itemListSearch is populated before trying to hide the buttons
+        if #itemListSearch == 0 then
+            --print("itemListSearch is empty, no buttons to hide.")
+        else
+            for _, button in ipairs(itemListSearch) do
+                button:Hide()  -- Hide all previous buttons before repopulating
+                --print("Hides button")
+            end
+        end
+    
+        local index = 0
+        for itemID, npcList in pairs(ITEMData) do
+            local itemName, itemLink = GetItemInfo(itemID)  -- Fetch item name and link
+    
+            -- Ensure the item name is valid
+            if itemName then
+                -- Filter by input if necessary
+                if not filteredText or itemName:lower():find(filteredText) then
+                    index = index + 1
+                    local itemButton = itemListSearch[index]
+    
+                    -- Create the button if it doesn't exist
+                    if not itemButton then
+                        itemButton = CreateFrame("Button", nil, itemContentSearch)
+                        itemButton:SetSize(240, 20)
+                        itemButton:SetPoint("TOPLEFT", itemContentSearch, "TOPLEFT", 0, -((index - 1) * 25))
+    
+                        -- Create hover effect
+                        itemButton:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+    
+                        -- Create a font string for the item name
+                        itemButton.text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+                        itemButton.text:SetPoint("LEFT", itemButton, "LEFT", 5, 0)
+    
+                        -- Add button to the itemListSearch
+                        itemListSearch[index] = itemButton
+                    end
+    
+                    -- Update the item button text and show it
+                    itemButton.text:SetText(itemLink)
+                    itemButton.itemID = itemID  -- Store the itemID in the button
+    
+                    -- Set click handler for item button
+                    itemButton:SetScript("OnClick", function()
+                        frame.ItemNameSelected:SetText(itemLink)
+                        PopulateNPCListFilter(itemID)
+                    end)
+    
+                    -- Show the button
+                    itemButton:Show()
+                end
+
+            end
+        end
+    
+        -- Adjust content height based on the number of items
+        local totalHeight = index * 25
+        itemContentSearch:SetHeight(math.max(totalHeight, 300))
+    end
+    
+
     -- Initial population of the NPC list
     PopulateNPCList(nil)
+    PopulateItemListFilter(nil)
 
     return frame
 end
 
---[[ --Old Button
-local function CreateMinimapButton()
-    local minimapButton = CreateFrame("Button", "NPCListMinimapButton", MinimapCluster)  -- Attach to UIParent (center of screen)
-    minimapButton:SetSize(32, 32)  -- Size of the minimap button
-
-    -- Ensure the button is visible by setting frame strata and level
-    minimapButton:SetFrameStrata("HIGH")
-    minimapButton:SetFrameLevel(10)
-    --[vignetteloot] = {32, 32, 0.55957, 0.59082, 0.730469, 0.761719, false, false},
-    -- Set default WoW button textures for visibility
-    --minimapButton:SetNormalTexture(vignetteloot)
-    -- Create and set the normal texture
-    local normalTexture = minimapButton:CreateTexture(nil, "BACKGROUND")
-    normalTexture:SetTexture("Interface\\minimap\\objecticonsatlas")  -- Set the base texture
-    normalTexture:SetTexCoord(0.55957, 0.59082, 0.730469, 0.761719)  -- Set the texture coordinates
-    normalTexture:SetAllPoints(minimapButton)  -- Fit the texture to the button size
-    minimapButton:SetNormalTexture(normalTexture)  -- Apply the texture to the button
-
-
-    minimapButton:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
-    --minimapButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
-
-    -- Set the button position in the center of the screen
-    minimapButton:SetPoint("TOPLEFT", MinimapCluster, "TOPLEFT", 20, -20)
-
-    -- Button click handler to show/hide the frame
-    minimapButton:SetScript("OnClick", function()
-        if NPCListFrame:IsShown() then
-            NPCListFrame:Hide()
-        else
-            NPCListFrame:Show()
-        end
-   end)
-
-    -- Make the button draggable for testing purposes
-    minimapButton:SetMovable(true)
-    minimapButton:SetScript("OnMouseDown", function(self)
-        self:StartMoving()
-    end)
-    minimapButton:SetScript("OnMouseUp", function(self)
-        self:StopMovingOrSizing()
-    end)
-    NPCListFrame:Hide()
-
-    return minimapButton
-end --]]
 
 -- Create the NPC list frame on player login
 local f = CreateFrame("Frame")

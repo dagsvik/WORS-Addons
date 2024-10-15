@@ -10,5 +10,6 @@ libs/LibDBIcon-1.0/embeds.xml
 
 #Main Files
 npc_data.lua
+item_data.lua
 DropTable.lua
 
