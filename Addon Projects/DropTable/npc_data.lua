@@ -1072,7 +1072,7 @@ NPCData = {
         name = "Jail guard",
         drops = {
 			-- Always
-            { itemID = 90036, dropRate = 1, quantity = "1"  },  -- Big Bones (1 in 1 = 100%)
+            { itemID = 90039, dropRate = 1, quantity = "1"  },  -- Big Bones (1 in 1 = 100%)
         }
     },
     -- H.A.M. GUARD NPC (ID: 441738)
