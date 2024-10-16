@@ -113,7 +113,30 @@ local function CreateNPCListFrame()
     frame:SetSize(780, 400)  -- Increase width to make space for the item list on the left
     frame:SetPoint("CENTER")
 
-
+    -- Line separator for Item List
+    local LineSeperatorItemList = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorItemList:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorItemList:SetSize(150, 2)
+    LineSeperatorItemList:SetPoint("TOPLEFT", frame, "TOPLEFT", 600, -28)
+	
+	-- Line separator for NPC List
+    local LineSeperatorNPCList = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorNPCList:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorNPCList:SetSize(150, 2)
+    LineSeperatorNPCList:SetPoint("TOPLEFT", frame, "TOPLEFT", 410, -28)
+	
+    -- Line separator for NPC Name
+    local LineSeperatorNPCName = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorNPCName:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorNPCName:SetSize(170, 2)
+    LineSeperatorNPCName:SetPoint("TOPLEFT", frame, "TOPLEFT", 20, -28)
+	
+    -- Line separator for Item Name
+    local LineSeperatorItemName = frame:CreateTexture(nil, "BACKGROUND")
+    LineSeperatorItemName:SetColorTexture(.6 ,.6, .6, .2)
+    LineSeperatorItemName:SetSize(170, 2)
+    LineSeperatorItemName:SetPoint("TOPLEFT", frame, "TOPLEFT", 220, -28)
+	
     -- Item List
     frame.itemList = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     frame.itemList:SetPoint("TOPLEFT", 600, -10)
@@ -122,12 +145,6 @@ local function CreateNPCListFrame()
     frame.itemList:SetJustifyH("LEFT")
     frame.itemList:SetJustifyV("CENTER")
     frame.itemList:SetFont("Fonts\\runescape_bold.ttf", 20)
-
-    -- Line separator for Item List
-    local LineSeperatorItemList = frame:CreateTexture(nil, "BACKGROUND")
-    LineSeperatorItemList:SetColorTexture(.6 ,.6, .6, .2)
-    LineSeperatorItemList:SetSize(150, 2)
-    LineSeperatorItemList:SetPoint("TOPLEFT", frame, "TOPLEFT", 600, -28)
 
     -- Create the input box for filtering Items (Customized similarly)
     local inputBoxItem = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
@@ -169,12 +186,6 @@ local function CreateNPCListFrame()
     frame.title:SetJustifyV("CENTER")
     frame.title:SetFont("Fonts\\runescape_bold.ttf", 20)
 
-    -- Line separator for NPC List
-    local LineSeperatorNPCList = frame:CreateTexture(nil, "BACKGROUND")
-    LineSeperatorNPCList:SetColorTexture(.6 ,.6, .6, .2)
-    LineSeperatorNPCList:SetSize(150, 2)
-    LineSeperatorNPCList:SetPoint("TOPLEFT", frame, "TOPLEFT", 410, -28)
-
     -- NPC Name Selected
     frame.NpcNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     frame.NpcNameSelected:SetPoint("TOPLEFT", 20, -10)
@@ -184,12 +195,6 @@ local function CreateNPCListFrame()
     frame.NpcNameSelected:SetJustifyV("CENTER")
     frame.NpcNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
 
-    -- Line separator for NPC Name
-    local LineSeperatorNPCName = frame:CreateTexture(nil, "BACKGROUND")
-    LineSeperatorNPCName:SetColorTexture(.6 ,.6, .6, .2)
-    LineSeperatorNPCName:SetSize(170, 2)
-    LineSeperatorNPCName:SetPoint("TOPLEFT", frame, "TOPLEFT", 20, -28)
-
     -- ITEM Name Selected
     frame.ItemNameSelected = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     frame.ItemNameSelected:SetPoint("TOPLEFT", 220, -10)
@@ -198,12 +203,6 @@ local function CreateNPCListFrame()
     frame.ItemNameSelected:SetJustifyH("LEFT")
     frame.ItemNameSelected:SetJustifyV("CENTER")
     frame.ItemNameSelected:SetFont("Fonts\\runescape_bold.ttf", 20)
-
-    -- Line separator for Item Name
-    local LineSeperatorItemName = frame:CreateTexture(nil, "BACKGROUND")
-    LineSeperatorItemName:SetColorTexture(.6 ,.6, .6, .2)
-    LineSeperatorItemName:SetSize(170, 2)
-    LineSeperatorItemName:SetPoint("TOPLEFT", frame, "TOPLEFT", 220, -28)
 
     -- Create the input box for filtering NPCs (Customized to avoid dark/transparent issues)
     local inputBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
