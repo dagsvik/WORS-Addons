@@ -29,8 +29,8 @@
 - Kalphite Queen		- ? currently disabled
 - Black Dragon			- Not Ingame ?
 - Lesser Demon - 82 - 441586 //Done
+- Abyssal Demon - 441114 // Done
 
-- Abyssal Demon - NEED MOB ID
 # TEMPLATE
     -- NPCNAME NPC (ID: NPCID)
     [NPCID] = {

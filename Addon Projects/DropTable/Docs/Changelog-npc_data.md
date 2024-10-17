@@ -1,4 +1,8 @@
 #Changelog for NPC_DATA.LUA
+
+### 2024-10-17
+- Added Abyssal Demon
+
 ### 2024-10-15
 - Added Lesser Demon
 

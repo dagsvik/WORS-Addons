@@ -2,6 +2,48 @@
 
 -- This table stores NPCs and their drop tables with item IDs and drop rates
 NPCData = {
+    -- Abyssal Demon NPC (ID: 441114)
+    [441114] = {
+        name = "Abyssal Demon",
+        drops = {
+			-- Always
+			{ itemID = 69407, dropRate = 1, quantity = "1"  },  -- Abyssal Ashes
+			-- Weapons and Armour
+			{ itemID = 50507, dropRate = 32, quantity = "1"  },  -- Black Sword
+			{ itemID = 90266, dropRate = 43, quantity = "1"  },  -- Steel Battleaxe
+			{ itemID = 90013, dropRate = 64, quantity = "1"  },  -- Black Axe
+			{ itemID = 90312, dropRate = 128, quantity = "1"  },  -- Mithril Kiteshield
+			{ itemID = 90373, dropRate = 128, quantity = "1"  },  -- Rune Chainbody
+			{ itemID = 90363, dropRate = 128, quantity = "1"  },  -- Rune Med Helm
+			{ itemID = 52011, dropRate = 512, quantity = "1"  },  -- Abyssal Whip
+			-- { itemID = ITEM_ID, dropRate = 32000, quantity = "1"  },  -- Abyssal Dagger
+			-- Runes
+			{ itemID = 90120, dropRate = 16, quantity = "50"  },  -- Air Rune
+			{ itemID = 90052, dropRate = 19, quantity = "10"  },  -- Chaos Rune
+			{ itemID = 90125, dropRate = 32, quantity = "7"  },  -- Blood Rune
+			{ itemID = 90139, dropRate = 128, quantity = "3"  },  -- Law Rune
+			-- Herbs
+            { itemID = 90078, dropRate = 27, quantity = "1"  }, -- Grimy guam leaf
+            { itemID = 90083, dropRate = 36, quantity = "1"  }, -- Grimy marrentill
+            { itemID = 90207, dropRate = 48, quantity = "1"  }, -- Grimy Tarromin
+            { itemID = 90079, dropRate = 62, quantity = "1"  }, -- Grimy harralander
+            { itemID = 90084, dropRate = 78, quantity = "1"  }, -- Grimy ranarr weed
+            { itemID = 90080, dropRate = 108, quantity = "1"  }, -- Grimy irit leaf
+            { itemID = 90075, dropRate = 144, quantity = "1"  }, -- Grimy avantoe
+            { itemID = 90081, dropRate = 172, quantity = "1"  }, -- Grimy kwuarm
+            { itemID = 90076, dropRate = 216, quantity = "1"  }, -- Grimy cadantine
+			{ itemID = 90082, dropRate = 287, quantity = "1"  }, -- Grimy lantadyme
+			{ itemID = 90077, dropRate = 287, quantity = "1"  }, -- Grimy dwarf weed
+			-- Materials
+			{ itemID = 90258, dropRate = 26, quantity = "60"  },  -- Pure Essence(Noted)
+			{ itemID = 90157, dropRate = 64, quantity = "1"  },  -- Adamantite Bar
+			-- Other
+			{ itemID = 90140, dropRate = 64, quantity = "1"  },  -- Lobster
+			{ itemID = 90243, dropRate = 128, quantity = "1"  },  -- Cosmic Talisman
+			{ itemID = 90242, dropRate = 128, quantity = "1"  },  -- Chaos Talisman
+			{ itemID = 90573, dropRate = 128, quantity = "1"  },  -- Defence Potion
+		}
+    },
     -- Lesser Demon NPC (ID: 441586) --NPC 88
     [441586] = {
         name = "Lesser Demon",
