@@ -237,7 +237,7 @@ local FactionColorData = {
         color = { 0.61, 0.13, 0.03, 1 }  -- #9B2007
     }
 }
--- Assuming experienceTable is already defined with level XP values
+-- Assuming data variables are already defined. Can ask if its importantt.
 
 local function GetSkillXP(skillID)
     local name, desc, standingID, barMin, barMax, barValue, _, _, _, isHeader, _, _, _, factionID = GetFactionInfoByID(skillID)
@@ -281,116 +281,158 @@ local function GetFactionIDByName(skillName)
     return FactionData[skillName] or nil
 end
 
-local function CreateSkillFrame(skillName, factionID, parentFrame, index)
-    local frame = CreateFrame("Frame", skillName .. "Frame", parentFrame)
-    frame:SetSize(230, 65)
-    if index == 1 then
-        frame:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", 5, 0 - (index - 1) * 69)
-    else
-        frame:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", 5, 0 - (index - 1) * 69)
+-- Create the dropdown menu frame
+local menuFrame = CreateFrame("Frame", "SkillFrameMenu", UIParent, "UIDropDownMenuTemplate")
+
+-- Table to store skill frames indexed by factionID for quick access
+local skillFrames = {}
+
+-- Ordered list to maintain the display order of skill frames
+local skillFramesList = {}
+
+
+-- Create frames for each skill in FactionData
+local index = 1
+
+-- Function to initialize the dropdown menu
+local function SkillFrameMenu_Init(self, level)
+    if not level then return end
+    local info = UIDropDownMenu_CreateInfo()
+
+    if level == 1 then
+        -- "Reset Skill" option
+        info.text = "Reset Skill"
+        info.func = function()
+            ResetSkillFrame(self.owner)
+        end
+        info.notCheckable = true
+        UIDropDownMenu_AddButton(info, level)
+
+        -- "Cancel" option
+        info.text = "Cancel"
+        info.func = function() end
+        info.notCheckable = true
+        UIDropDownMenu_AddButton(info, level)
     end
+end
+
+
+
+local function SortSkillFrames()
+    table.sort(skillFramesList, function(a, b)
+        return a.LastTime > b.LastTime
+    end)
+end
+
+
+
+
+
+local function CreateSkillFrame(skillName, factionID, parentFrame)
+    local frame = CreateFrame("Frame", skillName .. "Frame", parentFrame)
+    frame:SetSize(parentFrame:GetWidth() - 10, 65)
+    -- Initial position; will be set correctly in UpdateSkillFramesLayout()
+    frame:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", 5, - (0))
     
     -- Background for the skill frame
-    --frame:SetBackdrop({
-    --    bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
-    --    edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
-    --    tile = false, tileSize = 32, edgeSize = 32,
-    --    insets = { left = 4, right = 4, top = 4, bottom = 4 }
-    --})
-    -- Background for the skill frame
     frame:SetBackdrop({
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",  -- A simple background texture
+        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
         tile = false
     })
-    frame:SetBackdropColor(0.12, 0.12, 0.12, 1)  -- Set background color
+    frame:SetBackdropColor(0.12, 0.12, 0.12, 1)
+    
+    -- Table to store text elements
+    frame.textElements = {}
 
-
-
-    -- Skill icon as text character (placeholder text icon)
+    -- Skill icon as text character
     local skillIcon = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     skillIcon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -9)
-    skillIcon:SetText("📈")  -- You can change this to any skill-related symbol/text
-    skillIcon:SetFont(skillIcon:GetFont(), 25)  -- Apply black outline
-
+    skillIcon:SetText("📈")
+    skillIcon:SetFont(skillIcon:GetFont(), 25)
+    table.insert(frame.textElements, skillIcon)
+    
     -- XP Gained text
     local xpGainedText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     xpGainedText:SetPoint("TOPLEFT", skillIcon, "TOPRIGHT", 8, 0)
     xpGainedText:SetText(skillName .. " XP Gained: 0")
-    xpGainedText:SetTextColor(0.78,0.70,0.59)  -- Set text color to white
-    xpGainedText:SetFont("Fonts/runescape.ttf", 12)  -- Apply black outline
-
+    xpGainedText:SetTextColor(0.78,0.70,0.59)
+    xpGainedText:SetFont("Fonts/runescape.ttf", 12)
+    table.insert(frame.textElements, xpGainedText)
+    
     -- XP/hr text
     local xpPerHourText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     xpPerHourText:SetPoint("TOPLEFT", xpGainedText, "BOTTOMLEFT", 0, 0)
     xpPerHourText:SetText("XP/hr: 0")
-    xpPerHourText:SetTextColor(0.78,0.70,0.59)  -- Set text color to white
-    xpPerHourText:SetFont("Fonts/runescape.ttf", 12)  -- Apply black outline
-
+    xpPerHourText:SetTextColor(0.78,0.70,0.59)
+    xpPerHourText:SetFont("Fonts/runescape.ttf", 12)
+    table.insert(frame.textElements, xpPerHourText)
+    
     -- XP Left text
     local xpLeftText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    xpLeftText:SetPoint("TOPLEFT", frame, "TOPLEFT", 132, -9)
+    xpLeftText:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -9)
     xpLeftText:SetText("XP Left: 0")
-    xpLeftText:SetTextColor(0.78,0.70,0.59)  -- Set text color to white
-    xpLeftText:SetFont("Fonts/runescape.ttf", 12)  -- Apply black outline
-
+    xpLeftText:SetTextColor(0.78,0.70,0.59)
+    xpLeftText:SetFont("Fonts/runescape.ttf", 12)
+    table.insert(frame.textElements, xpLeftText)
+    
     -- Actions or kills text
     local actionsText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     actionsText:SetPoint("TOPLEFT", xpLeftText, "BOTTOMLEFT", 0, 0)
     actionsText:SetText("Actions: 0")
-    actionsText:SetTextColor(0.78,0.70,0.59)  -- Set text color to white
-    actionsText:SetFont("Fonts/runescaped.ttf", 12)  -- Apply black outline
-
-
+    actionsText:SetTextColor(0.78,0.70,0.59)
+    actionsText:SetFont("Fonts/runescape.ttf", 12)
+    table.insert(frame.textElements, actionsText)
+    
     local skillColor = { unpack(FactionColorData[skillName].color, 1, 3) }
     -- Progress bar for the level
     local progressBar = CreateFrame("StatusBar", nil, frame)
-    progressBar:SetSize(216, 16)
+    progressBar:SetHeight(16)
     progressBar:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 7, 7)
+    progressBar:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -7, 7)
     progressBar:SetStatusBarTexture("Interface\\Buttons\\WHITE8x8")
     progressBar:SetStatusBarColor(unpack(skillColor))
-
+    
     -- Create a background texture for the non-filled part of the progress bar
     local bg = progressBar:CreateTexture(nil, "BACKGROUND")
     bg:SetTexture("Interface\\Buttons\\WHITE8x8")
-
-    -- Set the background color for the non-filled part
-    bg:SetVertexColor(0.24, 0.22, 0.19, 1)  -- Light gray background with some transparency
-    bg:SetAllPoints(progressBar)  -- Make sure the background texture fills the entire status bar
-
-
+    bg:SetVertexColor(0.24, 0.22, 0.19, 1)
+    bg:SetAllPoints(progressBar)
+    
     progressBar:SetMinMaxValues(0, 100)
     progressBar:SetValue(45)
-
+    
     -- Create a container frame specifically for the text
     local textContainer = CreateFrame("Frame", nil, frame)
-    textContainer:SetAllPoints(progressBar)  -- Position the text container above the progress bar
-    textContainer:SetFrameLevel(progressBar:GetFrameLevel() + 1)  -- Ensure it's on top of the progress bar
-
+    textContainer:SetAllPoints(progressBar)
+    textContainer:SetFrameLevel(progressBar:GetFrameLevel() + 1)
+    
     -- Current level text (left side on the progress bar)
     local currentLevelText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     currentLevelText:SetPoint("LEFT", textContainer, "LEFT", 6, 0)
     currentLevelText:SetText("Lvl. 99")
-    currentLevelText:SetTextColor(1, 1, 1)  -- Set text color to white
-    currentLevelText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
-
+    currentLevelText:SetTextColor(1, 1, 1)
+    currentLevelText:SetFont("Fonts/runescape_bold.ttf", 12)
+    table.insert(frame.textElements, currentLevelText)
+    
     -- Progress percentage text (centered on the progress bar)
     local progressPercentageText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     progressPercentageText:SetPoint("CENTER", textContainer, "CENTER", 0, 0)
     progressPercentageText:SetText("100%")
-    progressPercentageText:SetTextColor(1, 1, 1)  -- Set text color to white
-    progressPercentageText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
-
+    progressPercentageText:SetTextColor(1, 1, 1)
+    progressPercentageText:SetFont("Fonts/runescape_bold.ttf", 12)
+    table.insert(frame.textElements, progressPercentageText)
+    
     -- Next level text (right side on the progress bar)
     local nextLevelText = textContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     nextLevelText:SetPoint("RIGHT", textContainer, "RIGHT", -4, 0)
     nextLevelText:SetText("Lvl. 99")
-    nextLevelText:SetTextColor(1, 1, 1)  -- Set text color to white
-    nextLevelText:SetFont("Fonts/runescape_bold.ttf", 12)  -- Apply black outline
-
-
-
+    nextLevelText:SetTextColor(1, 1, 1)
+    nextLevelText:SetFont("Fonts/runescape_bold.ttf", 12)
+    table.insert(frame.textElements, nextLevelText)
+    
     frame.TotalXpGained = 0
     frame.StartTime = time()
+    frame.LastTime = time()
     -- Store references to the elements inside the frame so we can update them later
     frame.skillIcon = skillIcon
     frame.xpGainedText = xpGainedText
@@ -398,13 +440,29 @@ local function CreateSkillFrame(skillName, factionID, parentFrame, index)
     frame.xpLeftText = xpLeftText
     frame.actionsText = actionsText
     frame.progressBar = progressBar
+    frame.progressPercent = 45
     frame.currentLevelText = currentLevelText
     frame.nextLevelText = nextLevelText
     frame.progressPercentageText = progressPercentageText
     frame.factionID = factionID  -- Store the factionID for this skill
+    -- Attach an OnMouseUp script to handle right-clicks
+    frame:EnableMouse(true)
+
+    frame:SetScript("OnMouseUp", function(self, button)
+    if button == "RightButton" then
+        -- Set the owner of the menu to the current skill frame
+        menuFrame.owner = self
+        -- Initialize the menu
+        UIDropDownMenu_Initialize(menuFrame, SkillFrameMenu_Init, "MENU")
+        -- Display the menu at the cursor's position
+        ToggleDropDownMenu(1, nil, menuFrame, "cursor", 0, 0)
+        print("Mouse up!")
+    end
+    end)
 
     return frame
 end
+
 
 -- Function to update an existing skill frame
 local function UpdateSkillFrame(skillFrame, skillData)
@@ -421,7 +479,7 @@ local function UpdateSkillFrame(skillFrame, skillData)
 
     -- Calculate XP per hour based on time elapsed
     skillData.xpPerHour = math.ceil(skillFrame.TotalXpGained / timeElapsed)
-
+    skillFrame.LastTime = currentTime
     -- Update the UI elements with the new data
     skillFrame.xpGainedText:SetText("XP Gained: " .. skillFrame.TotalXpGained)
     skillFrame.xpPerHourText:SetText("XP/hr: " .. skillData.xpPerHour)
@@ -432,6 +490,7 @@ local function UpdateSkillFrame(skillFrame, skillData)
     -- Update the progress bar and percentage
     skillFrame.progressBar:SetMinMaxValues(0, 100)
     skillFrame.progressBar:SetValue(skillData.progressPercent)
+    skillFrame.progressPercent = skillData.progressPercent
     skillFrame.progressPercentageText:SetText(string.format("%.2f%%", skillData.progressPercent))
 	-- Update level information
 	skillFrame.currentLevelText:SetText("Lvl. " .. skillData.currentLevel)
@@ -443,17 +502,10 @@ end
 
 
 
-
 -- Parent frame to hold all the skill frames
 local parentFrame = CreateFrame("Frame", "SkillTrackerParentFrame", UIParent)
 parentFrame:SetSize(265, 240)
 parentFrame:SetPoint("CENTER", 400, 225)
---parentFrame:SetBackdrop({
---    bgFile = "Interface\\WORS\\OldSchoolBackground2",  -- Background texture
---    edgeFile = "Interface\\WORS\\OldSchool-Dialog-Border",    -- Border texture
---    tile = false, tileSize = 32, edgeSize = 32,
---    insets = { left = 4, right = 4, top = 4, bottom = 4 }
---})
 parentFrame:SetBackdrop({
     bgFile = "Interface\\ChatFrame\\ChatFrameBackground",  -- A simple background texture
     tile = false
@@ -473,6 +525,34 @@ parentFrame:SetScript("OnDragStop", function(self)
     self:StopMovingOrSizing()
 end)
 
+-- Enable resizing for the parentFrame
+parentFrame:SetResizable(true)
+parentFrame:SetMinResize(150, 75)
+parentFrame:SetMaxResize(300, 700)
+
+-- Create the resize button
+local resizeButton = CreateFrame("Button", "SkillTrackerResizeButton", parentFrame)
+resizeButton:SetPoint("BOTTOMRIGHT", parentFrame, "BOTTOMRIGHT", 0, 0)
+resizeButton:SetSize(16, 16)
+resizeButton:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+resizeButton:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+resizeButton:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+
+resizeButton:EnableMouse(true)
+resizeButton:SetScript("OnMouseDown", function(self, button)
+    if button == "LeftButton" then
+        parentFrame:StartSizing("BOTTOMRIGHT")
+        self:GetHighlightTexture():Hide() -- Hide the highlight while resizing
+    end
+end)
+
+resizeButton:SetScript("OnMouseUp", function(self, button)
+    parentFrame:StopMovingOrSizing()
+    self:GetHighlightTexture():Show()
+end)
+
+
+
 -- Scroll frame to contain the skill frames
 local scrollFrame = CreateFrame("ScrollFrame", "SkillTrackerScrollFrame", parentFrame, "UIPanelScrollFrameTemplate")
 scrollFrame:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", 0, -10)
@@ -484,11 +564,95 @@ scrollContent:SetSize(235, 220) -- Adjust size based on content
 scrollFrame:SetScrollChild(scrollContent)
 
 
--- Create a table to store all the skill frames
-local skillFrames = {}
 
--- Create frames for each skill in FactionData
-local index = 1
+
+local function UpdateSkillFramesLayout()
+    local width, height = parentFrame:GetSize()
+
+    scrollFrame:SetSize(width - 30, height - 20)
+    scrollContent:SetSize(width - 30, height - 20)
+    
+    -- Update the skillFrames
+    local frameWidth = scrollContent:GetWidth() - 10  -- Adjust for padding
+    local frameHeight = 65  -- You can adjust this if you want the frames to scale in height as well
+    --print(frameWidth)
+    local index = 1
+    local offsetY = 0
+    for _, skillFrame in pairs(skillFramesList) do
+        skillFrame:SetSize(frameWidth, frameHeight)
+        skillFrame:ClearAllPoints()
+        skillFrame:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 5, -offsetY)
+        
+        -- Update child elements' sizes and positions
+        -- Progress Bar
+        skillFrame.progressBar:SetPoint("BOTTOMLEFT", skillFrame, "BOTTOMLEFT", 7, 7)
+        skillFrame.progressBar:SetPoint("BOTTOMRIGHT", skillFrame, "BOTTOMRIGHT", -7, 7)
+        skillFrame.progressBar:SetHeight(16)
+        skillFrame.progressBar:SetMinMaxValues(0, 100)
+        skillFrame.progressBar:SetValue(skillFrame.progressPercent)
+        -- Calculate new font size based on frame width
+        local baseWidth = 17  -- Base width to compare against (original width)
+        local minFontSize = 7   -- Minimum font size
+        local maxFontSize = 14  -- Maximum font size
+
+        -- Calculate a scaling factor
+        local scaleFactor = frameWidth / baseWidth
+
+        -- Loop through all text elements and adjust their font sizes
+        for i, textElement in ipairs(skillFrame.textElements) do
+            local fontName, fontHeight, fontFlags = textElement:GetFont()
+            local newFontSize = scaleFactor
+
+            -- Clamp the font size between minFontSize and maxFontSize
+            newFontSize = math.max(minFontSize, math.min(newFontSize, maxFontSize))
+            if i == 1 then
+                newFontSize = newFontSize*2
+            end
+
+            textElement:SetFont(fontName, newFontSize, fontFlags)
+        end
+
+        offsetY = offsetY + frameHeight + 4  -- Adjust spacing between frames
+        index = index + 1
+    end
+    
+    -- Update the scrollContent height based on the total height of skill frames
+    scrollContent:SetHeight(offsetY)
+end
+
+
+-- Adjust the scrollFrame and scrollContent sizes when the parentFrame is resized
+parentFrame:SetScript("OnSizeChanged", function(self, width, height)
+    UpdateSkillFramesLayout()
+end)
+
+
+-- Function to reset and remove a skill frame
+function ResetSkillFrame(skillFrame)
+    -- Remove the skill frame from the skillFrames table
+    for factionID, frame in pairs(skillFrames) do
+        if frame == skillFrame then
+            skillFrames[factionID] = nil
+            break
+        end
+    end
+
+    -- Remove the skill frame from the ordered list
+    for index, frame in ipairs(skillFramesList) do
+        if frame == skillFrame then
+            table.remove(skillFramesList, index)
+            break
+        end
+    end
+
+    -- Hide and delete the frame
+    skillFrame:Hide()
+    skillFrame:SetScript("OnUpdate", nil)
+    skillFrame:SetParent(nil)
+
+    -- Update the layout to rearrange remaining skill frames
+    UpdateSkillFramesLayout()
+end
 
 
 -- Function to handle skill frame creation and updating dynamically
@@ -497,22 +661,29 @@ local function HandleSkillFrameUpdate(skillName, skillData)
     local factionID = FactionData[skillName]
 
     if not factionID then
-        --print("Skill not found in FactionData: " .. skillName)
+        -- Skill not found in FactionData
         return
     end
 
     -- Check if the frame for this factionID already exists
     if not skillFrames[factionID] then
         -- Create the skill frame if it doesn't exist
-        --print("Creating skill frame for: " .. skillName)
-        local skillFrame = CreateSkillFrame(skillName, factionID, scrollContent, index)
-        skillFrames[factionID] = skillFrame -- Store it in the skillFrames table
-        index = index + 1
+        local skillFrame = CreateSkillFrame(skillName, factionID, scrollContent)
+        skillFrames[factionID] = skillFrame -- Store in the skillFrames table
+
+        -- Add the new skill frame to the ordered list
+        table.insert(skillFramesList, skillFrame)
+
+        -- Update the layout after adding a new frame
+        
     end
 
     -- Now that we know the frame exists, update it with new data
     UpdateSkillFrame(skillFrames[factionID], skillData)
+    SortSkillFrames()
+    UpdateSkillFramesLayout()
 end
+
 
 
 
@@ -526,6 +697,7 @@ XPTracker:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         -- Initialize tracking session on login
         panel:Show() -- Show the tracker panel
+        
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         local message = ...
         local iconPattern = "|T.-|t"
@@ -551,8 +723,8 @@ XPTracker:SetScript("OnEvent", function(self, event, ...)
             -- Use the table to get factionID
             local factionID = GetFactionIDByName(skillName)
 
-            currentLevel, remainingXP, progressPercent = GetSkillProgress(factionID)
-
+            local currentLevel, remainingXP, progressPercent = GetSkillProgress(factionID)
+            
             -- Example skill data to update a skill frame
             local skillData = {
                 skillName = skillName,
