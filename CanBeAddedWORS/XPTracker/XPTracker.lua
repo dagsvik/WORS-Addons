@@ -456,7 +456,7 @@ local function CreateSkillFrame(skillName, factionID, parentFrame)
         UIDropDownMenu_Initialize(menuFrame, SkillFrameMenu_Init, "MENU")
         -- Display the menu at the cursor's position
         ToggleDropDownMenu(1, nil, menuFrame, "cursor", 0, 0)
-        print("Mouse up!")
+        --print("Mouse up!")
     end
     end)
 
