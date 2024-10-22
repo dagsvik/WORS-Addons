@@ -747,3 +747,35 @@ end)
 
 
 
+-- Function to create the minimap button Using LibDBIcon and Ace3
+local XPTrackerFrameAddon = LibStub("AceAddon-3.0"):NewAddon("XPTrackerFrame")
+XPTrackerFrameMinimapButton = LibStub("LibDBIcon-1.0", true)
+
+local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("XPTrackerFrame", {
+	type = "data source",
+	text = "XPTrackerFrame",
+	icon = "INTERFACE\\ICONS\\strengthcapet",
+	OnClick = function(self, btn)
+        if btn == "LeftButton" then
+            if parentFrame:IsShown() then
+                parentFrame:Hide()
+            else
+                parentFrame:Show()
+            end
+        end
+	end,
+
+})
+
+function XPTrackerFrameAddon:OnInitialize()
+	self.db = LibStub("AceDB-3.0"):New("XPTrackerFrameMinimapPOS", {
+		profile = {
+			minimap = {
+				hide = false,
+			},
+		},
+	})
+	XPTrackerFrameMinimapButton:Register("XPTrackerFrame", miniButton, self.db.profile.minimap)
+end
+
+XPTrackerFrameMinimapButton:Show("XPTrackerFrame")

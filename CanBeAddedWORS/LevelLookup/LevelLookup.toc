@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: WORS Level Lookup
+## Notes: Lets you see other players with this addons Levels.
+## Author: Dagsvik
+LevelLookup.lua
+
+
+
