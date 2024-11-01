@@ -119,7 +119,7 @@ local FactionData = {
     ["Ranged"] = 1171,
     ["Prayer"] = 1170,
     ["Magic"] = 1169,
-    ["Runerafting"] = 1183,
+    ["Runecrafting"] = 1183,
     ["Construction"] = 1186,
     ["Hitpoints"] = 1168,
     ["Agility"] = 1185,
@@ -698,6 +698,7 @@ XPTracker:SetScript("OnEvent", function(self, event, ...)
         -- Initialize tracking session on login
         panel:Show() -- Show the tracker panel
         
+        
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         local message = ...
         local iconPattern = "|T.-|t"
@@ -754,7 +755,7 @@ XPTrackerFrameMinimapButton = LibStub("LibDBIcon-1.0", true)
 local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("XPTrackerFrame", {
 	type = "data source",
 	text = "XPTrackerFrame",
-	icon = "INTERFACE\\ICONS\\strengthcapet",
+	icon = "INTERFACE\\ICONS\\Skills",
 	OnClick = function(self, btn)
         if btn == "LeftButton" then
             if parentFrame:IsShown() then
@@ -779,3 +780,5 @@ function XPTrackerFrameAddon:OnInitialize()
 end
 
 XPTrackerFrameMinimapButton:Show("XPTrackerFrame")
+
+

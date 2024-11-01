@@ -409,7 +409,7 @@ messageFrame:RegisterEvent("CHAT_MSG_ADDON")
 messageFrame:SetScript("OnEvent", function(_, event, prefix, message, channel, sender)
     OnAddonMessageReceived(prefix, message, channel, sender)
 end)
-print("After msg hook Addon msg")
+--print("After msg hook Addon msg")
 
 -- Test function to use in chat for sending a message
 SLASH_TESTSEND1 = "/testsend"
@@ -421,13 +421,13 @@ end
 -- Test function to use in chat for sending a message to yourself (useful for solo testing)
 SLASH_TESTSENDSELF1 = "/testself"
 SlashCmdList["TESTSENDSELF"] = function(message)
-    print("Start Test Send self")
+    --print("Start Test Send self")
     local playerName = UnitName("player") -- Gets your own character's name
     SendLevelRequestMessage(playerName)
-    print("End Test Send self")
+    --print("End Test Send self")
 
 end
-print("End Player Data Com Addon")
+--print("End Player Data Com Addon")
 
 
 LevelLookupFrame:Hide()
@@ -438,7 +438,7 @@ LevelLookupFrameMinimapButton = LibStub("LibDBIcon-1.0", true)
 local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("LevelLookupFrame", {
 	type = "data source",
 	text = "LevelLookupFrame",
-	icon = "INTERFACE\\ICONS\\Skills",
+	icon = "INTERFACE\\ICONS\\strengthcapet",
 	OnClick = function(self, btn)
         if btn == "LeftButton" then
             if LevelLookupFrame:IsShown() then
