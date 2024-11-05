@@ -281,6 +281,15 @@ local function GetFactionIDByName(skillName)
     return FactionData[skillName] or nil
 end
 
+local function formatNumberWithCommas(number)
+    local formatted = tostring(number)
+    while true do
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+        if (k == 0) then break end
+    end
+    return formatted
+end
+
 -- Create the dropdown menu frame
 local menuFrame = CreateFrame("Frame", "SkillFrameMenu", UIParent, "UIDropDownMenuTemplate")
 
@@ -481,10 +490,10 @@ local function UpdateSkillFrame(skillFrame, skillData)
     skillData.xpPerHour = math.ceil(skillFrame.TotalXpGained / timeElapsed)
     skillFrame.LastTime = currentTime
     -- Update the UI elements with the new data
-    skillFrame.xpGainedText:SetText("XP Gained: " .. skillFrame.TotalXpGained)
-    skillFrame.xpPerHourText:SetText("XP/hr: " .. skillData.xpPerHour)
-    skillFrame.xpLeftText:SetText("XP Left: " .. skillData.xpLeft)
-	skillFrame.actionsText:SetText("Actions: " .. skillData.actions)
+    skillFrame.xpGainedText:SetText("XP Gained: " .. formatNumberWithCommas(skillFrame.TotalXpGained))
+    skillFrame.xpPerHourText:SetText("XP/hr: " .. formatNumberWithCommas(skillData.xpPerHour))
+    skillFrame.xpLeftText:SetText("XP Left: " .. formatNumberWithCommas(skillData.xpLeft))
+    skillFrame.actionsText:SetText("Actions: " .. formatNumberWithCommas(skillData.actions))
     skillFrame.skillIcon:SetText(skillData.skillIcon)
     
     -- Update the progress bar and percentage
