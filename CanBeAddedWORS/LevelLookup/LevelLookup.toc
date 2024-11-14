@@ -3,6 +3,3 @@
 ## Notes: Lets you see other players with this addons Levels.
 ## Author: Dagsvik
 LevelLookup.lua
-
-
-
