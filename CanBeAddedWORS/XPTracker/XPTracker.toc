@@ -3,6 +3,7 @@
 ## Notes: Tracks experience gains and displays XP per hour for skills. Made in the style of OSRS.
 ## Author: Dagsvik and You
 ## Version: 1.0
+## SavedVariables: XP_TrackerData XPTrackerFrameMinimapPOS
 # Libraries
 libs/Ace3/AceAddon-3.0/AceAddon-3.0.lua
 libs/Ace3/AceDB-3.0/AceDB-3.0.lua

@@ -48,7 +48,7 @@ local function CreateLevelLookupFrame()
     frame:SetScript("OnDragStop", function(self)
         self:StopMovingOrSizing()
     end)
-
+	frame:SetClampedToScreen(true)
     -- Create a texture object within the frame
     local texture = frame:CreateTexture(nil, "BACKGROUND")
     texture:SetAllPoints(frame)  -- Make the texture fill the entire frame
@@ -191,7 +191,12 @@ local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("LevelLookupFrame"
             end
         end
 	end,
-
+	OnTooltipShow = function(tooltip)
+        if not tooltip or not tooltip.AddLine then
+            return
+        end
+        tooltip:AddLine("Level Lookup\nLeft-click: Toggle Level Lookup Window", nil, nil, nil, nil)
+    end,
 })
 
 function LevelLookupFrameAddon:OnInitialize()
@@ -204,5 +209,3 @@ function LevelLookupFrameAddon:OnInitialize()
 	})
 	LevelLookupFrameMinimapButton:Register("LevelLookupFrame", miniButton, self.db.profile.minimap)
 end
-
-LevelLookupFrameMinimapButton:Show("LevelLookupFrame")

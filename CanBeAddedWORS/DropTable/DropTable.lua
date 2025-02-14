@@ -619,7 +619,7 @@ local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("NPCDropTable", {
 		if not tooltip or not tooltip.AddLine then
 			return
 		end
-		tooltip:AddLine("NPCDropTable \n\nLeft-click: Toggle NPCDropTable\nShift+Left-click - Opacity\nShift+Right-click + Opacity", nil, nil, nil, nil)
+		tooltip:AddLine("NPCDropTable\nLeft-click: Toggle NPCDropTable\nShift+Left-click - Opacity\nShift+Right-click + Opacity", nil, nil, nil, nil)
 	end,
 })
 
@@ -633,5 +633,3 @@ function NPCDropTableAddon:OnInitialize()
 	})
 	DropTableMinimapButton:Register("NPCDropTable", miniButton, self.db.profile.minimap)
 end
-
-DropTableMinimapButton:Show("NPCDropTable")

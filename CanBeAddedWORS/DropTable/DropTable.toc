@@ -3,6 +3,7 @@
 ## Notes: Drop table for WORS
 ## Version: 1.0
 ## Author: Dagsvik and You
+## SavedVariables: NPCDropTableMinimapPOS
 # Libraries
 libs/Ace3/AceAddon-3.0/AceAddon-3.0.lua
 libs/Ace3/AceDB-3.0/AceDB-3.0.lua

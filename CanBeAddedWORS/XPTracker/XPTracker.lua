@@ -1,3 +1,5 @@
+XP_TrackerData = XP_TrackerData or {}  -- Ensure the saved variable table exists
+XP_TrackerData.transparency = XP_TrackerData.transparency or 1.0 
 -- Define experience table for levels 1 to 99
 local experienceTable = {
     [1] = 0,
@@ -349,7 +351,6 @@ local function CreateSkillFrame(skillName, factionID, parentFrame)
         tile = false
     })
     frame:SetBackdropColor(0.12, 0.12, 0.12, 1)
-    
     -- Table to store text elements
     frame.textElements = {}
 
@@ -468,7 +469,7 @@ local function CreateSkillFrame(skillName, factionID, parentFrame)
         --print("Mouse up!")
     end
     end)
-
+	
     return frame
 end
 
@@ -524,7 +525,7 @@ parentFrame:SetBackdropColor(0.16, 0.16, 0.16, 1)
 parentFrame:SetMovable(true)
 parentFrame:EnableMouse(true)
 parentFrame:RegisterForDrag("LeftButton")
-
+parentFrame:SetClampedToScreen(true)
 -- Set up drag behavior
 parentFrame:SetScript("OnDragStart", function(self)
     self:StartMoving()
@@ -538,6 +539,12 @@ end)
 parentFrame:SetResizable(true)
 parentFrame:SetMinResize(150, 75)
 parentFrame:SetMaxResize(300, 700)
+
+-- Create title
+local title = parentFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+title:SetPoint("TOP", 0, -10)
+title:SetText("XP Tracker")
+title:SetFont("Fonts/runescape.ttf", 18, "OUTLINE")  -- 18 font size
 
 -- Create the resize button
 local resizeButton = CreateFrame("Button", "SkillTrackerResizeButton", parentFrame)
@@ -571,6 +578,10 @@ scrollFrame:SetSize(235, 220) -- Adjust the size to fit inside the parent frame
 local scrollContent = CreateFrame("Frame", "SkillTrackerScrollContent", scrollFrame)
 scrollContent:SetSize(235, 220) -- Adjust size based on content
 scrollFrame:SetScrollChild(scrollContent)
+
+local scrollBar = _G["SkillTrackerScrollFrameScrollBar"] -- Default scrollbar name from "UIPanelScrollFrameTemplate"
+local scrollUpButton = _G["SkillTrackerScrollFrameScrollBarScrollUpButton"]
+local scrollDownButton = _G["SkillTrackerScrollFrameScrollBarScrollDownButton"]
 
 
 
@@ -701,11 +712,40 @@ local XPTracker = CreateFrame("Frame")
 XPTracker:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE") -- Register event to listen for XP gains
 XPTracker:RegisterEvent("PLAYER_ENTERING_WORLD") -- Register event to initialize on login
 
+function loadXPBGTransparency()
+    -- Check if transparency value exists in saved data
+    if XP_TrackerData.transparency then
+        if XP_TrackerData.transparency == 0.0 then
+            -- Apply 0% transparency (invisible)
+            parentFrame:SetBackdropColor(0.0, 0.0, 0.0, 0)
+            -- Set scroll bar elements to fully transparent (invisible)
+            scrollBar:GetThumbTexture():SetAlpha(0) 
+            scrollUpButton:GetNormalTexture():SetAlpha(0)
+            scrollUpButton:GetPushedTexture():SetAlpha(0)
+            scrollUpButton:GetDisabledTexture():SetAlpha(0)
+            scrollDownButton:GetNormalTexture():SetAlpha(0)
+            scrollDownButton:GetPushedTexture():SetAlpha(0)
+            scrollDownButton:GetDisabledTexture():SetAlpha(0)
+			title:Hide()		
+		else
+            -- Apply 100% transparency (normal opacity)
+            parentFrame:SetBackdropColor(0.16, 0.16, 0.16, 1)
+            -- Set scroll bar elements to normal opacity
+			title:Show()
+        end
+    else
+        -- Default behavior if no saved transparency value is found
+        XP_TrackerData.transparency = 1.0  -- Default to 100% opacity
+        parentFrame:SetBackdropColor(0.16, 0.16, 0.16, 1)
+    end
+end
+
 -- Event handler for XP tracking
 XPTracker:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         -- Initialize tracking session on login
-        panel:Show() -- Show the tracker panel
+        loadXPBGTransparency()
+		--panel:Show() -- Show the tracker panel
         
         
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
@@ -757,6 +797,38 @@ end)
 
 
 
+function toggleXPBGTransparency()
+    -- Toggle transparency between 50% (0) and 100% (1.0)
+    if XP_TrackerData.transparency == 1.0 then
+        -- Set transparency to 0% and update scroll bar transparency
+        XP_TrackerData.transparency = 0.0
+		parentFrame:SetBackdropColor(0.0, 0.0, 0.0, 0)
+        -- Set scroll bar elements to fully transparent (invisible)
+        scrollBar:GetThumbTexture():SetAlpha(0) 
+        scrollUpButton:GetNormalTexture():SetAlpha(0)
+        scrollUpButton:GetPushedTexture():SetAlpha(0)
+        scrollUpButton:GetDisabledTexture():SetAlpha(0)
+        scrollDownButton:GetNormalTexture():SetAlpha(0)
+        scrollDownButton:GetPushedTexture():SetAlpha(0)
+        scrollDownButton:GetDisabledTexture():SetAlpha(0)
+		title:Hide()
+    else
+        -- Set transparency to 100% and update scroll bar transparency
+        XP_TrackerData.transparency = 1.0
+		parentFrame:SetBackdropColor(0.16, 0.16, 0.16, 1)
+        -- Set scroll bar elements to normal opacity
+        scrollBar:GetThumbTexture():SetAlpha(1) 
+        scrollUpButton:GetNormalTexture():SetAlpha(1)
+        scrollUpButton:GetPushedTexture():SetAlpha(1)
+        scrollUpButton:GetDisabledTexture():SetAlpha(1)
+        scrollDownButton:GetNormalTexture():SetAlpha(1)
+        scrollDownButton:GetPushedTexture():SetAlpha(1)
+        scrollDownButton:GetDisabledTexture():SetAlpha(1)
+		title:Show()		
+    end    
+end
+
+
 -- Function to create the minimap button Using LibDBIcon and Ace3
 local XPTrackerFrameAddon = LibStub("AceAddon-3.0"):NewAddon("XPTrackerFrame")
 XPTrackerFrameMinimapButton = LibStub("LibDBIcon-1.0", true)
@@ -771,8 +843,22 @@ local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("XPTrackerFrame", 
                 parentFrame:Hide()
             else
                 parentFrame:Show()
+			end
+		elseif btn == "RightButton" then
+			if parentFrame:IsShown() then
+                toggleXPBGTransparency()
+            else
+                parentFrame:Show()
+				toggleXPBGTransparency()
             end
         end
+	end,
+	OnTooltipShow = function(tooltip)
+		if not tooltip or not tooltip.AddLine then
+			return
+		end
+		tooltip:AddLine("XP Tracker\nLeft-click: Toggle XP Window", nil, nil, nil, nil)
+		tooltip:AddLine("Right-click: Toggle Background Transparency", nil, nil, nil, nil)
 	end,
 
 })
@@ -787,7 +873,3 @@ function XPTrackerFrameAddon:OnInitialize()
 	})
 	XPTrackerFrameMinimapButton:Register("XPTrackerFrame", miniButton, self.db.profile.minimap)
 end
-
-XPTrackerFrameMinimapButton:Show("XPTrackerFrame")
-
-
