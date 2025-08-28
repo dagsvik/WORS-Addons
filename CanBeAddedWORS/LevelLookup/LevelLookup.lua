@@ -1,188 +1,261 @@
--- Empty string used for default value and when loading.
+--[[--------------------------------------------------------------------
+LevelLookup.lua
+- Works standalone (drag/move, minimap toggle)
+- If WORSLite is loaded, auto-docks into MySidebarPanel and registers a sidebar button instead of LibDBIcon 
+---------------------------------------------------------------------]]
+
+------------------------------------------------------------
+-- Saved vars / locals
+------------------------------------------------------------
 local inputString = "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --"
 local LocalLevelLookupTextElements = nil
 local addonPrefix = "LevelLookup"
 
--- Function to update text elements from an input string
-local function UpdateTextElementsFromString(textElements, inputString)
-    -- Split the input string into individual values
+-- (3.3.5 requires registering prefix to receive CHAT_MSG_ADDON reliably)
+if C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix then
+    C_ChatInfo.RegisterAddonMessagePrefix(addonPrefix)
+elseif RegisterAddonMessagePrefix then
+    RegisterAddonMessagePrefix(addonPrefix)
+end
+
+------------------------------------------------------------
+-- Helpers
+------------------------------------------------------------
+local function UpdateTextElementsFromString(textElements, str)
+    if not textElements then return end
     local values = {}
-    for value in string.gmatch(inputString, "%S+") do
+    for value in string.gmatch(str or "", "%S+") do
         table.insert(values, value)
     end
-
-    -- Update the text elements
-    for index, textElement in ipairs(textElements) do
-        if values[index] then
-            textElement:SetText(values[index])
-        else
-            -- No more values; set to empty string or default value
-            textElement:SetText("")
-        end
+    for i, el in ipairs(textElements) do
+        el:SetText(values[i] or "")
     end
 end
 
 local function SendLevelRequestMessage(targetPlayer)
-    if targetPlayer then
+    if targetPlayer and targetPlayer ~= "" then
         UpdateTextElementsFromString(LocalLevelLookupTextElements, inputString)
-        --sends command to server
+        -- Sends command to server (your custom server command)
         SendChatMessage(".geworslvl " .. targetPlayer, "SAY")
-
     end
 end
 
--- Function to create the frame and text elements
+------------------------------------------------------------
+-- UI: Create the frame + text grid + input box
+------------------------------------------------------------
 local function CreateLevelLookupFrame()
-    -- Create a new frame named "LevelLookupFrame" attached to the UIParent
     local frame = CreateFrame("Frame", "LevelLookupFrame", UIParent)
-    frame:SetSize(219, 310)  -- Set the size of the frame to 219x310 pixels
-    frame:SetPoint("CENTER")  -- Position the frame at the center of the screen
+    frame:SetSize(219, 310)
+    frame:SetPoint("CENTER")
 
-    -- Make the frame movable
+    -- Standalone: movable
     frame:SetMovable(true)
     frame:EnableMouse(true)
     frame:RegisterForDrag("LeftButton")
-    frame:SetScript("OnDragStart", function(self)
-        self:StartMoving()
-    end)
-    frame:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-    end)
-	frame:SetClampedToScreen(true)
-    -- Create a texture object within the frame
+    frame:SetScript("OnDragStart", frame.StartMoving)
+    frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+    frame:SetClampedToScreen(true)
+
+    -- Background art slice
     local texture = frame:CreateTexture(nil, "BACKGROUND")
-    texture:SetAllPoints(frame)  -- Make the texture fill the entire frame
-
-    -- Set the texture file path
-    -- Replace "PlayerDataCom" with the actual folder name of your addon if different
+    texture:SetAllPoints(frame)
     texture:SetTexture("Interface\\AddOns\\LevelLookup\\LevelLookupSymetrical.tga")
-
-    -- Calculate texture coordinates to display only the top-left 219x310 pixels of the 512x512 texture
-    local left = 0
-    local right = 219 / 512   -- Normalize the width (219 pixels) to the texture's width (512 pixels)
-    local top = 0
-    local bottom = 310 / 512  -- Normalize the height (310 pixels) to the texture's height (512 pixels)
-
-    -- Set the texture coordinates
+    local left, right, top, bottom = 0, 219/512, 0, 310/512
     texture:SetTexCoord(left, right, top, bottom)
 
-    -- Create a grid of text elements
-    local textElements = {}  -- Table to store the text elements
+    -- Grid of text strings
+    local textElements = {}
+    local startX, startY = 45, -55
+    local Ydelta, Xdelta = 32, 72
+    local numColumns, numRows = 3, 8
 
-    -- Starting position
-    local startX = 45
-    local startY = -55
-    local Ydelta = 32   -- Vertical spacing between rows
-    local Xdelta = 72   -- Horizontal spacing between columns
-
-    -- Number of columns and rows
-    local numColumns = 3
-    local numRows = 8
-
-    for row = 0, numRows - 1 do  -- Rows from 0 to 7
-        for col = 0, numColumns - 1 do  -- Columns from 0 to 2
-            -- Create the text element
+    for row = 0, numRows - 1 do
+        for col = 0, numColumns - 1 do
             local text = frame:CreateFontString(nil, "OVERLAY")
             text:SetFont("Fonts\\runescape.ttf", 12)
-            text:SetText("")  -- Initialize with empty text
-            -- Calculate position
+            text:SetText("")
             local xPos = startX + col * Xdelta
             local yPos = startY - row * Ydelta
             text:SetPoint("TOPLEFT", frame, "TOPLEFT", xPos, yPos)
-            text:SetTextColor(1, 1, 1, 1)  -- Set text color to white
-            -- Store the text element
+            text:SetTextColor(1, 1, 1, 1)
             table.insert(textElements, text)
         end
     end
-    
-    -- Create the input field (EditBox)
+
+    -- Input EditBox
     local inputField = CreateFrame("EditBox", nil, frame)
     inputField:SetFont("Fonts\\runescape.ttf", 18)
-    inputField:SetSize(160, 22)  -- Adjust size to match your texture's input field area
-    inputField:SetPoint("TOPLEFT", frame, "TOPLEFT", 30, -5)  -- Adjust position as needed
-    inputField:SetAutoFocus(false)  -- Prevent the field from auto-focusing when shown
+    inputField:SetSize(160, 22)
+    inputField:SetPoint("TOPLEFT", frame, "TOPLEFT", 30, -5)
+    inputField:SetAutoFocus(false)
     inputField:SetMultiLine(false)
-    inputField:SetText("")  -- Initial text
+    inputField:SetText("")
     inputField:EnableMouse(true)
-    inputField:SetTextColor(1, 1, 1, 1)  -- White text
-    inputField:SetScript("OnEscapePressed", function(self)
-        self:ClearFocus()
-    end)
+    inputField:SetTextColor(1, 1, 1, 1)
+    inputField:SetScript("OnEscapePressed", inputField.ClearFocus)
     inputField:SetScript("OnEnterPressed", function(self)
-        local inputText = self:GetText()
-        if #inputText > 2 then
-        SendLevelRequestMessage(inputText)
+        local t = self:GetText()
+        if t and #t > 2 then
+            SendLevelRequestMessage(t)
         end
         self:ClearFocus()
     end)
-    
-    -- Make the background transparent
-    inputField:SetBackdrop(nil)  -- Remove any default backdrop
+    inputField:SetBackdrop(nil)
 
-
-    -- Return both the frame and the text elements table
     return frame, textElements
 end
 
-
+-- Build UI now
 local LocalLevelLookupFrame = nil
 LocalLevelLookupFrame, LocalLevelLookupTextElements = CreateLevelLookupFrame()
 UpdateTextElementsFromString(LocalLevelLookupTextElements, inputString)
+LocalLevelLookupFrame:Hide()
 
--- Function to handle receiving addon messages
+------------------------------------------------------------
+-- Addon message receive
+------------------------------------------------------------
 local function OnAddonMessageReceived(prefix, message, channel, sender)
-    if prefix == addonPrefix then
-        --print("Received message from", sender, ":", message)
-        if message == "GetLevels" then
-            --levels = GetAllSkillLevels()
-            --SendAddonMessage(addonPrefix, levels, "WHISPER", sender)
-            print("Sending message to" .. sender)
-            return
+    if prefix ~= addonPrefix then return end
+    -- Example special message:
+    if message == "GetLevels" then
+        -- You could reply here if needed:
+        -- SendAddonMessage(addonPrefix, <levels>, "WHISPER", sender)
+        -- print("Sending message to " .. sender)
+        return
+    end
+    UpdateTextElementsFromString(LocalLevelLookupTextElements, message)
+end
+
+-- Event driver for CHAT_MSG_ADDON
+local messageFrame = CreateFrame("Frame")
+messageFrame:RegisterEvent("CHAT_MSG_ADDON")
+messageFrame:SetScript("OnEvent", function(_, _, prefix, message, channel, sender)
+    OnAddonMessageReceived(prefix, message, channel, sender)
+end)
+
+------------------------------------------------------------
+-- Test slash commands
+------------------------------------------------------------
+SLASH_TESTSEND1 = "/testsend"
+SlashCmdList.TESTSEND = function(msg)
+    local target = msg and msg:match("^(%S+)")
+    SendLevelRequestMessage(target or "")
+end
+
+SLASH_TESTSENDSELF1 = "/testself"
+SlashCmdList.TESTSENDSELF = function()
+    local me = UnitName("player")
+    SendLevelRequestMessage(me)
+end
+
+------------------------------------------------------------
+-- Optional WORSLite docking (auto-detect)
+------------------------------------------------------------
+local function EmbedIntoSidebar_LevelLookup()
+    if not IsAddOnLoaded("WORSLite") then return end
+    if not LevelLookupFrame or not MySidebarPanel then return end
+
+    -- Dock without stretching
+    LevelLookupFrame:SetParent(MySidebarPanel)
+    LevelLookupFrame:ClearAllPoints()
+    LevelLookupFrame:SetPoint("TOP", MySidebarPanel, "TOP", 0, -35) -- leaves room for header
+    LevelLookupFrame:SetSize(219, 310)
+    LevelLookupFrame:SetMovable(false)
+    LevelLookupFrame:EnableMouse(false)
+
+    -- Header container (only once)
+    if not LevelLookupFrame.header then
+        local header = CreateFrame("Frame", nil, MySidebarPanel)
+        header:SetPoint("TOPLEFT", MySidebarPanel, "TOPLEFT", 0, 0)
+        header:SetPoint("TOPRIGHT", MySidebarPanel, "TOPRIGHT", 0, 0)
+        header:SetHeight(28)
+
+        -- title
+        local title = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        title:SetPoint("TOP", 0, -10)
+        title:SetFont("Fonts\\runescape.ttf", 22, "OUTLINE")
+        title:SetText("Level Lookup")
+
+        -- close button
+        local closeButton = CreateFrame("Button", nil, header)
+        closeButton:SetSize(20, 20)
+        closeButton:SetPoint("TOPRIGHT", header, "TOPRIGHT", 0, 0)
+        closeButton:SetNormalTexture("Interface\\WORS\\OldSchool-CloseButton-Up.blp")
+        closeButton:SetHighlightTexture("Interface\\WORS\\OldSchool-CloseButton-Highlight.blp", "ADD")
+        closeButton:SetPushedTexture("Interface\\WORS\\OldSchool-CloseButton-Down.blp")
+        closeButton:SetScript("OnClick", function()
+            MySidebarPanel:Hide()
+            if SetViewport then SetViewport() end
+            currentModule = nil
+            if MySidebarDB then MySidebarDB.currentModule = nil end
+        end)
+
+        LevelLookupFrame.header = header
+        LevelLookupFrame.headerTitle = title
+        LevelLookupFrame.headerClose = closeButton
+    end
+
+    -- Helper: show header only when this module is active
+    local function UpdateLLHeaderVisibility()
+        local active = MySidebarPanel:IsShown()
+            and MySidebarDB
+            and MySidebarDB.currentModule == "LevelLookup"
+        if LevelLookupFrame.header then
+            LevelLookupFrame.header:SetShown(active)
         end
-        print("Got message from sender: " .. sender)
+    end
 
-        UpdateTextElementsFromString(LocalLevelLookupTextElements, message)
+    -- Run once now
+    UpdateLLHeaderVisibility()
 
+    -- Keep visibility in sync with panel show/hide
+    MySidebarPanel:HookScript("OnShow", function()
+        if MySidebarDB and MySidebarDB.currentModule == "LevelLookup" then
+            LevelLookupFrame:Show()
+        end
+        UpdateLLHeaderVisibility()
+    end)
+    MySidebarPanel:HookScript("OnHide", function()
+        LevelLookupFrame:Hide()
+        UpdateLLHeaderVisibility()
+    end)
+
+    -- Also update header when switching tabs
+    if type(ToggleSidebar) == "function" and not LevelLookupFrame._hookedToggle then
+        hooksecurefunc("ToggleSidebar", function()
+            UpdateLLHeaderVisibility()
+        end)
+        LevelLookupFrame._hookedToggle = true
+    end
+
+    -- Register module button
+    if type(RegisterSidebarModule) == "function" then
+        RegisterSidebarModule(
+            "LevelLookup",
+            LevelLookupFrame,
+            "Interface\\Icons\\Holygrail",
+            "Level Lookup"
+        )
     end
 end
 
-
--- Register the CHAT_MSG_ADDON event to handle incoming messages
-local messageFrame = CreateFrame("Frame")
-messageFrame:RegisterEvent("CHAT_MSG_ADDON")
-messageFrame:SetScript("OnEvent", function(_, event, prefix, message, channel, sender)
-    OnAddonMessageReceived(prefix, message, channel, sender)
+local _lvlEmbed = CreateFrame("Frame")
+_lvlEmbed:RegisterEvent("PLAYER_LOGIN")
+_lvlEmbed:SetScript("OnEvent", function()
+    EmbedIntoSidebar_LevelLookup()
 end)
---print("After msg hook Addon msg")
 
--- Test function to use in chat for sending a message
-SLASH_TESTSEND1 = "/testsend"
-SlashCmdList["TESTSEND"] = function(msg)
-    local target, message = strsplit(" ", msg, 2)
-    SendLevelRequestMessage(target)
-end
-
--- Test function to use in chat for sending a message to yourself (useful for solo testing)
-SLASH_TESTSENDSELF1 = "/testself"
-SlashCmdList["TESTSENDSELF"] = function(message)
-    --print("Start Test Send self")
-    local playerName = UnitName("player") -- Gets your own character's name
-    SendLevelRequestMessage(playerName)
-    --print("End Test Send self")
-
-end
-
-
-LevelLookupFrame:Hide()
--- Function to create the minimap button Using LibDBIcon and Ace3
+------------------------------------------------------------
+-- Minimap button (LibDBIcon/LDB/Ace3) — disabled when docked
+------------------------------------------------------------
 local LevelLookupFrameAddon = LibStub("AceAddon-3.0"):NewAddon("LevelLookupFrame")
 LevelLookupFrameMinimapButton = LibStub("LibDBIcon-1.0", true)
 
 local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("LevelLookupFrame", {
-	type = "data source",
-	text = "LevelLookupFrame",
-	icon = "INTERFACE\\ICONS\\strengthcapet",
-	OnClick = function(self, btn)
+    type = "data source",
+    text = "LevelLookupFrame",
+    icon = "INTERFACE\\ICONS\\Holygrail", -- use your icon
+    OnClick = function(self, btn)
         if btn == "LeftButton" then
             if LevelLookupFrame:IsShown() then
                 LevelLookupFrame:Hide()
@@ -190,22 +263,19 @@ local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("LevelLookupFrame"
                 LevelLookupFrame:Show()
             end
         end
-	end,
-	OnTooltipShow = function(tooltip)
-        if not tooltip or not tooltip.AddLine then
-            return
-        end
+    end,
+    OnTooltipShow = function(tooltip)
+        if not tooltip or not tooltip.AddLine then return end
         tooltip:AddLine("Level Lookup\nLeft-click: Toggle Level Lookup Window", nil, nil, nil, nil)
     end,
 })
 
 function LevelLookupFrameAddon:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("LevelLookupFrameMinimapPOS", {
-		profile = {
-			minimap = {
-				hide = false,
-			},
-		},
-	})
-	LevelLookupFrameMinimapButton:Register("LevelLookupFrame", miniButton, self.db.profile.minimap)
+    -- If WORSLite skip minimap button
+    if IsAddOnLoaded("WORSLite") then return end
+
+    self.db = LibStub("AceDB-3.0"):New("LevelLookupFrameMinimapPOS", {
+        profile = { minimap = { hide = false } },
+    })
+    LevelLookupFrameMinimapButton:Register("LevelLookupFrame", miniButton, self.db.profile.minimap)
 end

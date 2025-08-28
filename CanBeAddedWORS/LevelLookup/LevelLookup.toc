@@ -2,5 +2,8 @@
 ## Title: WORS Level Lookup
 ## Notes: Lets you see other players with this addons Levels.
 ## Author: Dagsvik
+## Version: 1.0
+## DefaultState: disabled
+## OptionalDeps: WORSLite
 ## SavedVariables: LevelLookupFrameMinimapPOS
 LevelLookup.lua
